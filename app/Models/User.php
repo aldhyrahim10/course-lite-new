@@ -58,21 +58,4 @@ class User extends Authenticatable
     {
         return $this->role && $this->role->user_role_name === $roleName;
     }
-
-    public function assignRole($role) {
-        if (is_string($role)) {
-            $role = UserRole::where('user_role_name', $role)->firstOrFail();
-        }
-        $this->role()->associate($role);
-        $this->save();
-
-        return $this;
-    }
-
-    public function removeRole() {
-        $this->role()->dissociate();
-        $this->save();
-
-        return $this;
-    }
 }
