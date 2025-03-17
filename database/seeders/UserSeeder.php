@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
             [
                 'user_role_id' => 1,
                 'name' => 'User 1',
-                'email' => 'tes@gmail.com',
+                'email' => 'tes1@gmail.com',
                 'password' => bcrypt('user1234'),
                 'no_telp' => '08123782372',
                 'user_image' => '-'
@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             [
                 'user_role_id' => 2,
                 'name' => 'User 2',
-                'email' => 'tes@gmail.com',
+                'email' => 'tes2@gmail.com',
                 'password' => bcrypt('user1234'),
                 'no_telp' => '08123782372',
                 'user_image' => '-'
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             [
                 'user_role_id' => 3,
                 'name' => 'User 3',
-                'email' => 'tes@gmail.com',
+                'email' => 'tes3@gmail.com',
                 'password' => bcrypt('user1234'),
                 'no_telp' => '08123782372',
                 'user_image' => '-'
