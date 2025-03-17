@@ -13,24 +13,15 @@ class LoginController extends Controller
     }
 
     public function login(Request $request) {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:8'
+        ]);
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            $user = Auth::user();
-
-            if ($user->hasRole('administrator')) {
-                return redirect()->route('admin.dashboard');
-            } else if ($user->hasRole('instructor')) {
-                return redirect()->route('instructor.dashboard');
-            } else {
-                return redirect()->route('student.dashboard');
-            }
-
-            return back()->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ])->onlyInput('email');
+            return redirect()->route('admin.dashboard');
         }
 
         return back()->withErrors([
