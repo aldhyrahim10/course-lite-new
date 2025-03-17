@@ -18,9 +18,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
+        'user_role_id',
         'name',
         'email',
         'password',
+        'no_telp',
+        'user_image'
     ];
 
     /**
@@ -44,5 +47,32 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(UserRole::class, 'user_role_id', 'id');
+    }
+
+    public function hasRole($roleName)
+    {
+        return $this->role && $this->role->user_role_name === $roleName;
+    }
+
+    public function assignRole($role) {
+        if (is_string($role)) {
+            $role = UserRole::where('user_role_name', $role)->firstOrFail();
+        }
+        $this->role()->associate($role);
+        $this->save();
+
+        return $this;
+    }
+
+    public function removeRole() {
+        $this->role()->dissociate();
+        $this->save();
+
+        return $this;
     }
 }
