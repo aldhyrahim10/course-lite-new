@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\Login;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CourseCategoryController;
+use App\Http\Controllers\CourseController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -24,11 +26,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->prefix('admin')->group(function () {
     // Admin Route
-    Route::prefix('admin')->group(function () {
-        Route::get('/', function () {
-            return view('pages.home');
-        })->name('admin.dashboard');
-    });
+    Route::get('/', function () {
+        return view('pages.home');
+    })->name('admin.dashboard');
+    Route::get('/courses', [CourseController::class, 'index'])->name('admin.courses.index');
+
+    Route::get('/course-categories', [CourseCategoryController::class, 'index'])->name('admin.course-categories.index');
+    Route::post('/course-categories', [CourseCategoryController::class, 'store'])->name('admin.course-categories.store');
+    Route::get('/get-one-course-category', [CourseCategoryController::class, 'getOneData'])->name('admin.course-categories.edit');
+    Route::patch('/update-course-categories/{id}', [CourseCategoryController::class, 'update'])->name('admin.course-categories.update');
+    Route::delete('/delete-course-categories/{id}', [CourseCategoryController::class, 'destroy'])->name('admin.course-categories.destroy');
 });
