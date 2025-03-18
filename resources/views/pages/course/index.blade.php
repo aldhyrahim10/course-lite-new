@@ -37,6 +37,7 @@
                                     <th>Name</th>
                                     <th>Category</th>
                                     <th>Price</th>
+                                    <th>Instructor</th>
                                     <th>Picture</th>
                                     <th>Action</th>
                                 </tr>
@@ -51,9 +52,9 @@
                                         <td>{{ $item->course_name }}</td>
                                         <td>{{ $item->category_name }}</td>
                                         <td>{{ $item->course_price }}</td>
-                                        <td class="text-center"><img src="{{ $item->course_image }}" width="100"
+                                        <td>{{ $item->user->name }}</td>
+                                        <td class="text-center"><img src="{{ Storage::url($item->course_image) }}" width="100"
                                                 alt="">
-                                        </td>
                                         <td class="text-center">
                                             <div class="btn btn-primary btn-show" data-toggle="modal"
                                                 data-target="#modalShow">
@@ -108,7 +109,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Category</label>
-                                <select class="form-control" name="category_id" id="category_id">
+                                <select class="form-control" name="course_category_id" id="course_category_id">
                                     <option value="">--Select Category--</option>
                                     @foreach($category as $item)
                                         <option value="{{ $item->id }}">{{ $item->course_category_name }}</option>
@@ -121,7 +122,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Description</label>
-                                <textarea name="content_desc" id="content_desc" class="form-control content-desc-add"
+                                <textarea name="course_description" id="course_description" class="form-control content-desc-add"
                                     cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -130,7 +131,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Benefit</label>
-                                <textarea name="content_benefit" id="content_benefit"
+                                <textarea name="course_benefit" id="course_benefit"
                                     class="form-control content-benefit-add" cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -147,12 +148,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Picture</label>
-                                <input type="file" id="picture" class="form-control" name="picture">
+                                <label>Is Discount ?</label>
+                                <!-- Hidden input provides a default of "false" -->
+                                <input type="hidden" name="is_discount" id="is_discount" value="0">
+                                <!-- Checkbox sends "true" if checked -->
+                                <input type="checkbox"  name="is_discount" id="is_discount" value="1">
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Discount Percentage</label>
+                                 <input type="number" class="form-control" name="discount_percentage" id="discount_percentage"
+                                    placeholder="Enter Discount Percentage">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Course Image</label>
+                                <input type="file" id="course_image" class="form-control" name="course_image">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btnCloseModalAdd" class="btn btn-secondary"
@@ -174,12 +194,12 @@
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
             </div>
             <form id="formEditCourse" enctype="multipart/form-data">
+                <input type="hidden" id="hdnCourseID" name="course_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Name</label>
-                                <input type="hidden" id="hdnCourseID" value="">
                                 <input type="text" class="form-control" name="course_name" id="course_name"
                                     placeholder="Enter Course Name">
                             </div>
@@ -189,7 +209,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Category</label>
-                                <select class="form-control" name="category_id" id="category_id">
+                                <select class="form-control" name="course_category_id" id="course_category_id">
                                     <option value="">--Select Category--</option>
                                     @foreach($category as $item)
                                         <option value="{{ $item->id }}">{{ $item->course_category_name }}</option>
@@ -202,7 +222,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Description</label>
-                                <textarea name="content_desc" id="content_desc" class="form-control content-desc-edit"
+                                <textarea name="course_description" id="course_description" class="form-control content-desc-add"
                                     cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -211,8 +231,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Benefit</label>
-                                <textarea name="content_benefit" id="content_benefit"
-                                    class="form-control content-benefit-edit" cols="30" rows="10"></textarea>
+                                <textarea name="course_benefit" id="course_benefit"
+                                    class="form-control content-benefit-add" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
@@ -228,15 +248,31 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Picture</label>
-                                <input type="file" id="picture" class="form-control" name="picture">
-                                <small>gambar sebelumnya</small>
-                                <br>
-                                <img class="picture_image" width="100px" src="" alt="">
+                                <label>Is Discount ?</label>
+                                <!-- Hidden input provides a default of "false" -->
+                                <input type="hidden" name="is_discount" id="is_discount" value="0">
+                                <!-- Checkbox sends "true" if checked -->
+                                <input type="checkbox"  name="is_discount" id="is_discount" value="1">
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Discount Percentage</label>
+                                 <input type="number" class="form-control" name="discount_percentage" id="discount_percentage"
+                                    placeholder="Enter Discount Percentage">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Course Image</label>
+                                <input type="file" id="course_image" class="form-control" name="course_image">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btnCloseModalEdit" class="btn btn-secondary"
@@ -278,92 +314,54 @@
             e.preventDefault();
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
+            let formData = new FormData(this);
+            console.log(formData);
+            
+            formData.append('_token', csrfToken);
 
-            var name = $(this).find("#course_name").val();
-            var category = $(this).find("#category_id").val();
-            var desc = $(this).find("#content_desc").val();
-            var benefit = $(this).find("#content_benefit").val();
-            var price = $(this).find("#course_price").val();
-            var picture = $(this).find("#picture")[0].files[0];
-
-            if (!picture) {
-                alert("belum ada gambar");
-            } else {
-                let formData = new FormData();
-                formData.append('image', picture);
-                formData.append('_token', csrfToken);
-
-                $.ajax({
-                    // url: "",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-
-                        var imgUrl = data.image_url
-
-                        $.ajax({
-                            // url: "",
-                            type: "POST",
-                            data: {
-                                '_token': csrfToken,
-                                'course_category_id': category,
-                                'course_name': name,
-                                'course_description': desc,
-                                'course_benefit': benefit,
-                                'course_price': price,
-                                'course_image': imgUrl
-                            },
-                            success: function (data2) {
-                                alert("Data Berhasil Ditambahkan");
-
-                                location.reload();
-                            },
-                            error: function (data2) {
-                                console.log("gagal");
-                            }
-                        })
-
-                    },
-                    error: function (data) {
-                        console.log("Upload gagal", data);
-                    }
-                });
-            }
-
+            $.ajax({
+                url: "{{ route('admin.courses.store') }}",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert("Data Berhasil Ditambahkan");
+                    location.reload();
+                },
+                error: function (data) {
+                    console.error("Error:", data);
+                    alert("Gagal menambahkan data");
+                }
+            });
         });
 
         $(".btn-edit").click(function () {
-
             var item = $(this).closest('.item-content');
-
             var id = item.find(".hdnCourseID").val();
-
+            
             $.ajax({
-                // url: "",
+                url: "{{ route('admin.courses.edit') }}",
                 type: "GET",
                 data: {
                     'query': id
                 },
                 success: function (data) {
-                    var courseID = data.id;
-                    var category = data.course_category_id;
-                    var name = data.course_name;
-                    var desc = data.course_description;
-                    var benefit = data.course_benefit;
-                    var price = data.course_price;
-                    var picture = data.course_image;
-
                     var formEditContent = $("#formEditCourse");
-
-                    formEditContent.find("#hdnCourseID").val(courseID);
-                    formEditContent.find("#category_id").val(category);
-                    formEditContent.find("#course_name").val(name);
-                    formEditContent.find("#course_description").val(desc);
-                    formEditContent.find("#course_benefit").val(benefit);
-                    formEditContent.find("#course_price").val(price);
-                    formEditContent.find(".picture_image").attr("src", picture);
+                    formEditContent.find("#hdnCourseID").val(data.id);
+                    formEditContent.find("#course_name").val(data.course_name);
+                    formEditContent.find("#course_category_id").val(data.course_category_id);
+                    formEditContent.find("#course_description").val(data.course_description);
+                    formEditContent.find("#course_benefit").val(data.course_benefit);
+                    formEditContent.find("#course_price").val(data.course_price);
+                    formEditContent.find("#discount_percentage").val(data.discount_percentage);
+                    // Set the checkbox for is_discount (assumes a value of 1 means true)
+                    formEditContent.find("#is_discount").prop("checked", data.is_discount == 1);
+                    // Update the image preview if applicable
+                    formEditContent.find("#course_image").attr("src", data.course_image);
+                },
+                error: function (xhr) {
+                    console.error("Error fetching course data:", xhr.responseText);
                 }
             });
         });
@@ -372,110 +370,55 @@
             e.preventDefault();
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-
             var id = $(this).find("#hdnCourseID").val();
-            var name = $(this).find("#course_name").val();
-            var category = $(this).find("#category_id").val();
-            var desc = $(this).find("#content_desc").val();
-            var benefit = $(this).find("#content_benefit").val();
-            var price = $(this).find("#course_price").val();
-            var picture = $(this).find("#picture")[0].files[0];
 
-            if (!picture) {
-                $.ajax({
-                    // url: "" +
-                    //     id,
-                    type: "PATCH",
-                    data: {
-                        '_token': csrfToken,
-                        'course_category_id': category,
-                        'course_name': name,
-                        'course_description': desc,
-                        'course_benefit': benefit,
-                        'course_price': price,
-                    },
-                    success: function (data2) {
-                        alert("Data Berhasil Diubah");
+            // Create a FormData object from the form element
+            var formData = new FormData(this);
+            // Ensure the CSRF token and spoofed method are included
+            formData.append('_token', csrfToken);
+            formData.append('_method', 'PATCH');
 
-                        location.reload();
-                    },
-                    error: function (data2) {
-                        console.log("gagal");
-                    }
-                })
-            } else {
-                let formData = new FormData();
-                formData.append('image', picture);
-                formData.append('_token', csrfToken);
-
-                $.ajax({
-                    url: "",
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-
-                        var imgUrl = data.image_url
-
-                        $.ajax({
-                        //     url: "" +
-                        // id,
-                            type: "PATCH",
-                            data: {
-                                '_token': csrfToken,
-                                'course_category_id': category,
-                                'course_name': name,
-                                'course_description': desc,
-                                'course_benefit': benefit,
-                                'course_price': price,
-                                'course_image': imgUrl
-                            },
-                            success: function (data2) {
-                                alert("Data Berhasil Diubah");
-
-                                location.reload();
-                            },
-                            error: function (data2) {
-                                console.log("gagal");
-                            }
-                        })
-
-                    },
-                    error: function (data) {
-                        console.log("Upload gagal", data);
-                    }
-                });
-            }
-
+            $.ajax({
+                url: "{{ route('admin.courses.update', '') }}/" + id,
+                type: "POST", // Use POST and spoof PATCH via _method
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (data) {
+                    alert("Data Berhasil Diubah");
+                    location.reload();
+                },
+                error: function (xhr) {
+                    console.error("Error updating course:", xhr.responseText);
+                    alert("Gagal mengubah data");
+                }
+            });
         });
 
         $(".btn-delete").click(function () {
             if (confirm("Apakah Anda ingin menghapus data ini?")) {
                 var item = $(this).closest('.item-content');
-
                 var id = item.find(".hdnCourseID").val();
-
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
-                    // url: "" +
-                    //     id,
-                    type: "DELETE",
+                    url: "{{ route('admin.courses.destroy', '') }}/" + id,
+                    type: "POST",
                     data: {
                         '_token': csrfToken,
+                        '_method': 'DELETE'
                     },
                     success: function (data) {
                         alert("Data Berhasil Dihapus");
                         location.reload();
                     },
-                    error: function (data) {
-                        console.log("Gagal menghapus data");
+                    error: function (xhr) {
+                        console.error("Error deleting course:", xhr.responseText);
+                        alert("Gagal menghapus data");
                     }
                 });
             }
         });
     });
-
 </script>
 @endsection

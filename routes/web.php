@@ -31,11 +31,19 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/', function () {
         return view('pages.home');
     })->name('admin.dashboard');
-    Route::get('/courses', [CourseController::class, 'index'])->name('admin.courses.index');
 
+    Route::get('/courses', [CourseController::class, 'index'])->name('admin.courses.index');
     Route::get('/course-categories', [CourseCategoryController::class, 'index'])->name('admin.course-categories.index');
-    Route::post('/course-categories', [CourseCategoryController::class, 'store'])->name('admin.course-categories.store');
-    Route::get('/get-one-course-category', [CourseCategoryController::class, 'getOneData'])->name('admin.course-categories.edit');
-    Route::patch('/update-course-categories/{id}', [CourseCategoryController::class, 'update'])->name('admin.course-categories.update');
-    Route::delete('/delete-course-categories/{id}', [CourseCategoryController::class, 'destroy'])->name('admin.course-categories.destroy');
+
+    Route::post('/courses', [CourseController::class, 'store'])->name('admin.courses.store');
+    Route::get('/get-one-course', [CourseController::class, 'getOneData'])->name('admin.courses.edit');
+    Route::patch('/update-courses/{id}', [CourseController::class, 'update'])->name('admin.courses.update');
+    Route::delete('/delete-courses/{id}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
 });
+
+
+
+Route::post('/course-categories', [CourseCategoryController::class, 'store'])->name('admin.course-categories.store');
+Route::get('/get-one-course-category', [CourseCategoryController::class, 'getOneData'])->name('admin.course-categories.edit');
+Route::patch('/update-course-categories/{id}', [CourseCategoryController::class, 'update'])->name('admin.course-categories.update');
+Route::delete('/delete-course-categories/{id}', [CourseCategoryController::class, 'destroy'])->name('admin.course-categories.destroy');
