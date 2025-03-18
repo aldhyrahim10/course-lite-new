@@ -11,7 +11,7 @@ class CourseStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class CourseStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'course_name' => 'required|string',
+            'course_category_id' => 'required|integer',
+            'course_price' => 'required|integer',
+            'course_description' => 'required|string',
+            'course_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'course_benefit' => 'required|string',
+            'is_discount' => 'required|boolean',
+            'discount_percentage' => 'required_if:is_discount,true|integer',
         ];
     }
 }

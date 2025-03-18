@@ -11,7 +11,7 @@ class CourseUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class CourseUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'course_name' => 'sometimes|string',
+            'course_category_id' => 'sometimes|integer',
+            'course_price' => 'sometimes|integer',
+            'course_description' => 'sometimes|string',
+            'course_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'course_benefit' => 'sometimes|string',
+            'is_discount' => 'sometimes|boolean',
+            'discount_percentage' => 'sometimes|integer',
         ];
     }
 }

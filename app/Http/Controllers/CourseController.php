@@ -7,7 +7,9 @@ use App\Http\Requests\CourseUpdateRequest;
 use App\Models\Course;
 use App\Models\CourseCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CourseController extends Controller
 {
@@ -16,7 +18,9 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = DB::table('courses')->join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')->select('courses.*', 'course_categories.course_category_name as category_name')->get();
+        $courses = Course::join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')->select('courses.*', 'course_categories.course_category_name as category_name')
+            ->with('user')
+            ->get();
         $category = CourseCategory::all();
         return view('pages.course.index', compact('courses', 'category'));
     }
@@ -27,6 +31,18 @@ class CourseController extends Controller
     public function create()
     {
         //
+    }
+
+    public function getOneData(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|integer', 
+        ]);
+    
+        $query = $request->get('query');
+        
+        $course = Course::where('id', $query)->first();
+        return response()->json($course);
     }
 
     /**
@@ -40,11 +56,23 @@ class CourseController extends Controller
             if ($request->hasFile('course_image')) {
                 $validated['course_image'] = $request->file('course_image')->store('images', 'public');
             }
+
+            $instructorID = Auth::user()->id;
             
-            Course::create($validated);
+            Course::create([
+                'course_name' => $validated['course_name'],
+                'course_category_id' => $validated['course_category_id'],
+                'course_image' => $validated['course_image'],
+                'course_price' => $validated['course_price'],
+                'course_benefit' => $validated['course_benefit'],
+                'is_discount' => $validated['is_discount'],
+                'discount_percentage' => $validated['discount_percentage'],
+                'course_description' => $validated['course_description'],
+                'instructor_id' => $instructorID,
+            ]);
         });
 
-        return redirect()->route('courses.index');
+        return redirect()->route('admin.courses.index');
     }
 
     /**
@@ -66,30 +94,55 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CourseUpdateRequest $request, Course $course)
+    public function update(CourseUpdateRequest $request, $id)
     {
+        $course = Course::findOrFail($id);
+        
         DB::transaction(function () use ($request, $course) {
             $validated = $request->validated();
-
+            
+            // If there's a new image, store it and delete the old one
             if ($request->hasFile('course_image')) {
+                // Delete the old image if it exists
+                if ($course->course_image && Storage::disk('public')->exists($course->course_image)) {
+                    Storage::disk('public')->delete($course->course_image);
+                }
+                
+                // Store the new image
                 $validated['course_image'] = $request->file('course_image')->store('images', 'public');
             }
-
-            $course->update($validated);
+            
+            $course->update([
+                'course_name' => $validated['course_name'],
+                'course_category_id' => $validated['course_category_id'],
+                'course_price' => $validated['course_price'],
+                'course_benefit' => $validated['course_benefit'],
+                'is_discount' => $validated['is_discount'],
+                'discount_percentage' => $validated['discount_percentage'],
+                'course_description' => $validated['course_description'],
+                'course_image' => $validated['course_image'] ?? $course->course_image,
+            ]);
         });
-
-        return redirect()->route('courses.index');
+        
+        return redirect()->route('admin.courses.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy($id)
     {
+        $course = Course::findOrFail($id);
+        
         DB::transaction(function () use ($course) {
+            // Delete the course image if it exists
+            if ($course->course_image && Storage::disk('public')->exists($course->course_image)) {
+                Storage::disk('public')->delete($course->course_image);
+            }
+            
             $course->delete();
         });
 
-        return redirect()->route('courses.index');
+        return redirect()->route('admin.courses.index');
     }
 }

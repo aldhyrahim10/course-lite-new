@@ -215,9 +215,10 @@
 
             $.ajax({
                 url: "{{ route('admin.course-categories.update', '') }}/" + id, // Suggested consistent endpoint
-                type: "PATCH",
+                type: "POST",
                 data: {
                     '_token': csrfToken,
+                    '_method': 'PUT',
                     'course_category_name': categoryName
                 },
                 success: function(response) {
