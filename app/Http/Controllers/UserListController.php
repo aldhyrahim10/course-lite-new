@@ -72,12 +72,10 @@ class UserListController extends Controller
                 $data['user_image'] = $request->file('user_image')->store('user-images', 'public');
             }
 
-            if (!isset($data['password'])) {
-                $data['password'] = $user->password;
-            }
-
-            if (isset($data['password'])) {
+             if (isset($data['password'])) {
                 $data['password'] = bcrypt($data['password']);
+            } else {
+                unset($data['password']);
             }
 
             $user->update($data);
