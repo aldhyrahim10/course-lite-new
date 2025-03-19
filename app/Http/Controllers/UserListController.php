@@ -34,7 +34,9 @@ class UserListController extends Controller
     }
 
     public function store(UserListStoreRequest $request) {
-        DB::transaction(function() use ($request) {
+        $instructorID = UserRole::where('user_role_name', 'instructor')->first()->id;
+
+        DB::transaction(function() use ($request, $instructorID) {
             $data = $request->validated();
 
             if ($request->hasFile('user_image')) {
@@ -43,16 +45,9 @@ class UserListController extends Controller
 
             $data['password'] = bcrypt($data['password']);
 
-            $instructorID = UserRole::where('user_role_name', 'instructor')->first()->id;
+            $data['user_role_id'] = $instructorID;
 
-            User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => $data['password'],
-                'no_telp' => $data['no_telp'],
-                'user_role_id' => $instructorID,
-                'user_image' => $data['user_image'],
-            ]);
+            User::create($data);
         });
 
         return redirect()->route('admin.user-list.index');

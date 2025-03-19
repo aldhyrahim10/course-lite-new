@@ -22,6 +22,7 @@ class UserListStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'user_role_id' => ['sometimes', 'integer', 'exists:user_roles,id'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8'],
