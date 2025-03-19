@@ -18,10 +18,13 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')->select('courses.*', 'course_categories.course_category_name as category_name')
-            ->with('user')
+        $courses = Course::join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')
+            ->join('users', 'courses.instructor_id', '=', 'users.id')
+            ->select('courses.*', 'course_categories.course_category_name as category_name', 'users.name as instructor_name')
             ->get();
+            
         $category = CourseCategory::all();
+
         return view('pages.course.index', compact('courses', 'category'));
     }
 

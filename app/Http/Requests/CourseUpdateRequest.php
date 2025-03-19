@@ -23,7 +23,7 @@ class CourseUpdateRequest extends FormRequest
     {
         return [
             'course_name' => 'sometimes|string',
-            'course_category_id' => 'sometimes|integer',
+            'course_category_id' => 'sometimes|integer|exists:course_categories,id',
             'course_price' => 'sometimes|integer',
             'course_description' => 'sometimes|string',
             'course_image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',

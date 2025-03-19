@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticleStoreRequest;
 use App\Http\Requests\ArticleUpdateRequest;
 use App\Models\Article;
+use App\Models\ArticleCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -15,12 +17,25 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = DB::table('articles')
-            ->join('article_categories', 'articles.article_category_id', '=', 'article_categories.id')
-            ->select('articles.*', 'article_categories.name as category_name')
+        $articles = Article::join('article_categories', 'articles.article_category_id', '=', 'article_categories.id')
+            ->select('articles.*', 'article_categories.article_category_name as category_name')
             ->get();
 
-        return view('article.index', compact('articles'));
+        $categories = ArticleCategory::all();
+
+        return view('pages.article.index', compact('articles', 'categories'));
+    }
+
+    public function getOneData(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|integer', 
+        ]);
+    
+        $query = $request->get('query');
+        
+        $course = Article::where('id', $query)->first();
+        return response()->json($course);
     }
 
     /**
@@ -46,7 +61,7 @@ class ArticleController extends Controller
             Article::create($validated);
         });
 
-        return redirect()->route('articles.index');
+        return redirect()->route('admin.articles.index');
     }
 
     /**
@@ -68,30 +83,45 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ArticleUpdateRequest $request, Article $article)
+    public function update(ArticleUpdateRequest $request, $id)
     {
-        DB::transaction(function () use ($request, $article) {
+        DB::transaction(function () use ($request, $id) {
             $validated = $request->validated();
 
+            $article = Article::findOrFail($id);
+
             if ($request->hasFile('article_image')) {
+                // Delete the old image if it exists
+                if ($article->article_image && Storage::disk('public')->exists($article->article_image)) {
+                    Storage::disk('public')->delete($article->article_image);
+                } 
+
+                // Store the new image
                 $validated['article_image'] = $request->file('article_image')->store('images', 'public');
             }
 
             $article->update($validated);
         });
 
-        return redirect()->route('articles.index');
+        return redirect()->route('admin.articles.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
+        $article = Article::findOrFail($id);
+
         DB::transaction(function () use ($article) {
+            // Delete the course image if it exists
+            if ($article->article_image && Storage::disk('public')->exists($article->article_image)) {
+                Storage::disk('public')->delete($article->article_image);
+            }
+
             $article->delete();
         });
 
-        return redirect()->route('articles.index');
+        return redirect()->route('admin.articles.index');
     }
 }

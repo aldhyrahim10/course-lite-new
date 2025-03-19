@@ -5,12 +5,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Courses</h1>
+                <h1 class="m-0">Article</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Courses</li>
+                    <li class="breadcrumb-item active">Article</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -23,7 +23,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Courses List</h3>
+                        <h3 class="card-title">Article List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -34,26 +34,24 @@
                             <thead class="text-center">
                                 <tr>
                                     <th style="width: 10%">No</th>
-                                    <th>Name</th>
                                     <th>Category</th>
-                                    <th>Price</th>
-                                    <th>Instructor</th>
-                                    <th>Picture</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Image</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="courseTableBody">
-                                @foreach($courses as $item)
+                            <tbody id="articleTableBody">
+                                @foreach($articles as $item)
                                     <tr class="item-content">
                                         <td>
                                             {{ $loop->iteration }}
-                                            <input type="hidden" class="hdnCourseID" value="{{ $item->id }}">
+                                            <input type="hidden" class="hdnArticleID" value="{{ $item->id }}">
                                         </td>
-                                        <td>{{ $item->course_name }}</td>
                                         <td>{{ $item->category_name }}</td>
-                                        <td>{{ $item->course_price }}</td>
-                                        <td>{{ $item->instructor_name }}</td>
-                                        <td class="text-center"><img src="{{ Storage::url($item->course_image) }}" width="100"
+                                        <td>{{ $item->article_title }}</td>
+                                        <td>{{ $item->article_description }}</td>
+                                        <td class="text-center"><img src="{{ Storage::url($item->article_image) }}" width="100"
                                                 alt="">
                                         <td class="text-center">
                                             <div class="btn btn-primary btn-show" data-toggle="modal"
@@ -94,25 +92,25 @@
                 <h2 class="modal-title fs-5" id="modalAddLabel">Add Data</h2>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
             </div>
-            <form id="formAddCourse" enctype="multipart/form-data">
+            <form id="formAddArticle" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Name</label>
-                                <input type="text" class="form-control" name="course_name" id="course_name"
-                                    placeholder="Enter Course Name">
+                                <label>Article Title</label>
+                                <input type="text" class="form-control" name="article_title" id="article_title"
+                                    placeholder="Enter Article Title">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Category</label>
-                                <select class="form-control" name="course_category_id" id="course_category_id">
+                                <label>Article Category</label>
+                                <select class="form-control" name="article_category_id" id="article_category_id">
                                     <option value="">--Select Category--</option>
-                                    @foreach($category as $item)
-                                        <option value="{{ $item->id }}">{{ $item->course_category_name }}</option>
+                                    @foreach($categories as $item)
+                                        <option value="{{ $item->id }}">{{ $item->article_category_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -121,8 +119,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Description</label>
-                                <textarea name="course_description" id="course_description" class="form-control content-desc-add"
+                                <label>Article Description</label>
+                                <textarea name="article_description" id="article_description" class="form-control content-desc-add"
                                     cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -130,46 +128,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Benefit</label>
-                                <textarea name="course_benefit" id="course_benefit"
-                                    class="form-control content-benefit-add" cols="30" rows="10"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Course Price</label>
-                                <input type="number" class="form-control" name="course_price" id="course_price"
-                                    placeholder="Enter Course Price">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Is Discount ?</label>
-                                <!-- Hidden input provides a default of "false" -->
-                                <input type="hidden" name="is_discount" id="is_discount" value="0">
-                                <!-- Checkbox sends "true" if checked -->
-                                <input type="checkbox"  name="is_discount" id="is_discount" value="1">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Discount Percentage</label>
-                                 <input type="number" class="form-control" name="discount_percentage" id="discount_percentage"
-                                    placeholder="Enter Discount Percentage">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Course Image</label>
-                                <input type="file" id="course_image" class="form-control" name="course_image">
+                                <label>Article Image</label>
+                                <input type="file" id="article_image" class="form-control" name="article_image">
                             </div>
                         </div>
                     </div>
@@ -193,26 +153,26 @@
                 <h2 class="modal-title fs-5" id="modalEditLabel">Add Data</h2>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
             </div>
-            <form id="formEditCourse" enctype="multipart/form-data">
-                <input type="hidden" id="hdnCourseID" name="course_id">
+            <form id="formEditArticle" enctype="multipart/form-data">
+                <input type="hidden" id="hdnArticleID" name="article_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Name</label>
-                                <input type="text" class="form-control" name="course_name" id="course_name"
-                                    placeholder="Enter Course Name">
+                                <label>Article Title</label>
+                                <input type="text" class="form-control" name="article_title" id="article_title"
+                                    placeholder="Enter Article Title">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Category</label>
-                                <select class="form-control" name="course_category_id" id="course_category_id">
+                                <label>Article Category</label>
+                                <select class="form-control" name="article_category_id" id="article_category_id">
                                     <option value="">--Select Category--</option>
-                                    @foreach($category as $item)
-                                        <option value="{{ $item->id }}">{{ $item->course_category_name }}</option>
+                                    @foreach($categories as $item)
+                                        <option value="{{ $item->id }}">{{ $item->article_category_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -221,8 +181,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Description</label>
-                                <textarea name="course_description" id="course_description" class="form-control content-desc-add"
+                                <label>Article Description</label>
+                                <textarea name="article_description" id="article_description" class="form-control content-desc-add"
                                     cols="30" rows="10"></textarea>
                             </div>
                         </div>
@@ -230,46 +190,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Benefit</label>
-                                <textarea name="course_benefit" id="course_benefit"
-                                    class="form-control content-benefit-add" cols="30" rows="10"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Course Price</label>
-                                <input type="number" class="form-control" name="course_price" id="course_price"
-                                    placeholder="Enter Course Price">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Is Discount ?</label>
-                                <!-- Hidden input provides a default of "false" -->
-                                <input type="hidden" name="is_discount" id="is_discount" value="0">
-                                <!-- Checkbox sends "true" if checked -->
-                                <input type="checkbox"  name="is_discount" id="is_discount" value="1">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Discount Percentage</label>
-                                 <input type="number" class="form-control" name="discount_percentage" id="discount_percentage"
-                                    placeholder="Enter Discount Percentage">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Course Image</label>
-                                <input type="file" id="course_image" class="form-control" name="course_image">
+                                <label>Article Image</label>
+                                <input type="file" id="article_image" class="form-control" name="article_image">
                             </div>
                         </div>
                     </div>
@@ -310,7 +232,7 @@
 
 <script>
     $(document).ready(function () {
-        $("#formAddCourse").submit(function (e) {
+        $("#formAddArticle").submit(function (e) {
             e.preventDefault();
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
@@ -320,7 +242,7 @@
             formData.append('_token', csrfToken);
 
             $.ajax({
-                url: "{{ route('admin.courses.store') }}",
+                url: "{{ route('admin.articles.store') }}",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -338,39 +260,34 @@
 
         $(".btn-edit").click(function () {
             var item = $(this).closest('.item-content');
-            var id = item.find(".hdnCourseID").val();
+            var id = item.find(".hdnArticleID").val();
             
             $.ajax({
-                url: "{{ route('admin.courses.edit') }}",
+                url: "{{ route('admin.articles.edit') }}",
                 type: "GET",
                 data: {
                     'query': id
                 },
                 success: function (data) {
-                    var formEditContent = $("#formEditCourse");
-                    formEditContent.find("#hdnCourseID").val(data.id);
-                    formEditContent.find("#course_name").val(data.course_name);
-                    formEditContent.find("#course_category_id").val(data.course_category_id);
-                    formEditContent.find("#course_description").val(data.course_description);
-                    formEditContent.find("#course_benefit").val(data.course_benefit);
-                    formEditContent.find("#course_price").val(data.course_price);
-                    formEditContent.find("#discount_percentage").val(data.discount_percentage);
-                    // Set the checkbox for is_discount (assumes a value of 1 means true)
-                    formEditContent.find("#is_discount").prop("checked", data.is_discount == 1);
+                    var formEditContent = $("#formEditArticle");
+                    formEditContent.find("#hdnArticleID").val(data.id);
+                    formEditContent.find("#article_title").val(data.article_title);
+                    formEditContent.find("#article_category_id").val(data.article_category_id);
+                    formEditContent.find("#article_description").val(data.article_description);
                     // Update the image preview if applicable
-                    formEditContent.find("#course_image").attr("src", data.course_image);
+                    formEditContent.find("#article_image").attr("src", data.article_image);
                 },
                 error: function (xhr) {
-                    console.error("Error fetching course data:", xhr.responseText);
+                    console.error("Error fetching article data:", xhr.responseText);
                 }
             });
         });
 
-        $("#formEditCourse").submit(function (e) {
+        $("#formEditArticle").submit(function (e) {
             e.preventDefault();
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var id = $(this).find("#hdnCourseID").val();
+            var id = $(this).find("#hdnArticleID").val();
 
             // Create a FormData object from the form element
             var formData = new FormData(this);
@@ -379,7 +296,7 @@
             formData.append('_method', 'PATCH');
 
             $.ajax({
-                url: "{{ route('admin.courses.update', '') }}/" + id,
+                url: "{{ route('admin.articles.update', '') }}/" + id,
                 type: "POST", // Use POST and spoof PATCH via _method
                 data: formData,
                 processData: false,
@@ -398,11 +315,11 @@
         $(".btn-delete").click(function () {
             if (confirm("Apakah Anda ingin menghapus data ini?")) {
                 var item = $(this).closest('.item-content');
-                var id = item.find(".hdnCourseID").val();
+                var id = item.find(".hdnArticleID").val();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
-                    url: "{{ route('admin.courses.destroy', '') }}/" + id,
+                    url: "{{ route('admin.articles.destroy', '') }}/" + id,
                     type: "POST",
                     data: {
                         '_token': csrfToken,

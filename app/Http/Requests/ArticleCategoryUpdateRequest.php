@@ -11,7 +11,7 @@ class ArticleCategoryUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,7 @@ class ArticleCategoryUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'article_category_name' => 'sometimes|string|max:255',
         ];
     }
 }
