@@ -22,7 +22,11 @@ class UserListStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+            'no_telp' => ['required', 'string', 'max:15'],
+            'user_image' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }
 }

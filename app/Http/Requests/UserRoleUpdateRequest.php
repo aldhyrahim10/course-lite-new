@@ -22,7 +22,7 @@ class UserRoleUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_role_name' => ['sometimes', 'string', 'max:255'],
         ];
     }
 }
