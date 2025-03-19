@@ -5,12 +5,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Course Category</h1>
+                <h1 class="m-0">Article Category</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Course Category</li>
+                    <li class="breadcrumb-item active">Article Category</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -23,7 +23,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Course Category List</h3>
+                        <h3 class="card-title">Article Category List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -38,14 +38,14 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="courseCategoryTableBody">
-                                @foreach($courseCategories as $item)
+                            <tbody id="articleCategoryTableBody">
+                                @foreach($articleCategory as $item)
                                     <tr class="item-content">
                                         <td>
                                             {{ $loop->iteration }}
-                                            <input type="hidden" class="hdnCourseCategoryID" value="{{ $item->id }}">
+                                            <input type="hidden" class="hdnArticleCategoryID" value="{{ $item->id }}">
                                         </td>
-                                        <td>{{ $item->course_category_name }}</td>
+                                        <td>{{ $item->article_category_name }}</td>
                                         <td class="text-center">
                                             <div class="btn btn-primary btn-show" data-toggle="modal"
                                                 data-target="#modalShow">
@@ -85,14 +85,14 @@
                 <h2 class="modal-title fs-5" id="modalAddLabel">Add Data</h2>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
             </div>
-            <form id="formAddCourseCategory" enctype="multipart/form-data">
+            <form id="formAddArticleCategory" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Category Name</label>
-                                <input type="text" class="form-control" name="course_category_name" id="course_category_name"
-                                    placeholder="Enter Course Category Name">
+                                <label>Article Category Name</label>
+                                <input type="text" class="form-control" name="article_category_name" id="article_category_name"
+                                    placeholder="Enter Article Category Name">
                             </div>
                         </div>
                     </div>
@@ -116,15 +116,15 @@
                 <h2 class="modal-title fs-5" id="modalEditLabel">Add Data</h2>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
             </div>
-            <form id="formEditCourseCategory" enctype="multipart/form-data">
+            <form id="formEditArticleCategory" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Course Category Name</label>
-                                <input type="hidden" id="hdnCourseCategoryID" value="">
-                                <input type="text" class="form-control" name="course_category_name" id="course_category_name"
-                                    placeholder="Enter Course Category Name">
+                                <label>Article Category Name</label>
+                                <input type="hidden" id="hdnArticleCategoryID" value="">
+                                <input type="text" class="form-control" name="article_category_name" id="article_category_name"
+                                    placeholder="Enter Article Category Name">
                             </div>
                         </div>
                     </div>
@@ -145,32 +145,32 @@
 @section('scripts')
 <script>
     $(document).ready(function () {
-        $("#formAddCourseCategory").submit(function(e) {
+        $("#formAddArticleCategory").submit(function(e) {
             e.preventDefault();
             
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             
-            var categoryName = $(this).find("#course_category_name").val();
+            var categoryName = $(this).find("#article_category_name").val();
             
             // Validate input before proceeding
             if (!categoryName || categoryName.trim() === "") {
-                alert("Please enter a course category name");
+                alert("Please enter a article category name");
                 return;
             }
             
             $.ajax({
-                url: "{{ route('admin.course-categories.store') }}",
+                url: "{{ route('admin.article-categories.store') }}",
                 type: "POST",
                 data: {
                     '_token': csrfToken,
-                    'course_category_name': categoryName
+                    'article_category_name': categoryName
                 },
                 success: function(response) {
                     alert("Data Berhasil Ditambahkan");
                     location.reload();
                 },
                 error: function(xhr, status, error) {        
-                    console.error("Error saving course category:", xhr.responseText);
+                    console.error("Error saving article category:", xhr.responseText);
                     alert("Failed to save category. Please try again.");
                 }
             });
@@ -179,21 +179,23 @@
         // Edit button click handler
         $(".btn-edit").click(function () {
             var item = $(this).closest('.item-content');
-            var id = item.find(".hdnCourseCategoryID").val(); // Make sure this ID exists in your HTML
+            var id = item.find(".hdnArticleCategoryID").val(); // Make sure this ID exists in your HTML
 
             $.ajax({
-                url: "{{ route('admin.course-categories.edit') }}", // Suggested endpoint
+                url: "{{ route('admin.article-categories.edit') }}", // Suggested endpoint
                 type: "GET",
                 data: {
                     'query': id
                 },
                 success: function (data) {
-                    var courseID = data.id;
-                    var categoryName = data.course_category_name;
+                    var articleCategoryID = data.id;
+                    var categoryName = data.article_category_name;
 
-                    var formEditContent = $("#formEditCourseCategory");
-                    formEditContent.find("#hdnCourseCategoryID").val(courseID);
-                    formEditContent.find("#course_category_name").val(categoryName);
+                    console.log("Data:", data);
+
+                    var formEditContent = $("#formEditArticleCategory");
+                    formEditContent.find("#hdnArticleCategoryID").val(articleCategoryID);
+                    formEditContent.find("#article_category_name").val(categoryName);
                 },
                 error: function(xhr) {
                     console.error("Error fetching category data:", xhr.responseText);
@@ -203,20 +205,22 @@
         });
 
         // Edit form submission
-        $("#formEditCourseCategory").submit(function (e) {
+        $("#formEditArticleCategory").submit(function (e) {
             e.preventDefault();
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            var id = $(this).find("#hdnCourseCategoryID").val();
-            var categoryName = $(this).find("#course_category_name").val();
+            var id = $(this).find("#hdnArticleCategoryID").val();
+            var categoryName = $(this).find("#article_category_name").val();
 
+            console.log("ID:", id);
+               
             $.ajax({
-                url: "{{ route('admin.course-categories.update', '') }}/" + id,
+                url: "{{ route('admin.article-categories.update', '') }}/" + id,
                 type: "POST",
                 data: {
                     '_token': csrfToken,
                     '_method': 'PATCH',
-                    'course_category_name': categoryName
+                    'article_category_name': categoryName
                 },
                 success: function(response) {
                     alert("Data Berhasil Diperbarui");
@@ -233,11 +237,11 @@
         $(".btn-delete").click(function () {
             if (confirm("Apakah Anda ingin menghapus data ini?")) {
                 var item = $(this).closest('.item-content');
-                var id = item.find(".hdnCourseCategoryID").val();
+                var id = item.find(".hdnArticleCategoryID").val();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
-                    url: "{{ route('admin.course-categories.destroy', '') }}/" + id,
+                    url: "{{ route('admin.article-categories.destroy', '') }}/" + id,
                     type: "POST",
                     data: {
                         '_token': csrfToken,

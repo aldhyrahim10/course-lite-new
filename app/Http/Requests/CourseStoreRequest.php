@@ -23,7 +23,7 @@ class CourseStoreRequest extends FormRequest
     {
         return [
             'course_name' => 'required|string',
-            'course_category_id' => 'required|integer',
+            'course_category_id' => 'required|integer|exists:course_categories,id',
             'course_price' => 'required|integer',
             'course_description' => 'required|string',
             'course_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',

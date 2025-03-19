@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ArticleCategoryStoreRequest;
 use App\Http\Requests\ArticleCategoryUpdateRequest;
 use App\Models\ArticleCategory;
+use App\Models\CourseCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,18 @@ class ArticleCategoryController extends Controller
     public function index()
     {
         $articleCategory = ArticleCategory::all();
-        return view('articleCategory.index', compact('articleCategory'));
+        return view('pages.article-category.index', compact('articleCategory'));
+    }
+
+    public function getOneData(Request $request){
+        $request->validate([
+            'query' => 'required|integer', 
+        ]);
+    
+        $query = $request->get('query');
+        
+        $category = ArticleCategory::where('id', $query)->first();
+        return response()->json($category);
     }
 
     /**
@@ -36,7 +48,7 @@ class ArticleCategoryController extends Controller
             ArticleCategory::create($request->validated());
         });
 
-        return redirect()->route('articleCategory.index');
+        return redirect()->route('admin.article-categories.index');
     }
 
     /**
@@ -50,32 +62,34 @@ class ArticleCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ArticleCategory $articleCategory)
+    public function edit($id)
     {
-        //
+        // 
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(ArticleCategoryUpdateRequest $request, ArticleCategory $articleCategory)
+    public function update(ArticleCategoryUpdateRequest $request, $id)
     {
-        DB::transaction(function () use ($request, $articleCategory) {
+        DB::transaction(function () use ($request, $id) {
+            $articleCategory = ArticleCategory::findOrFail($id);
+
             $articleCategory->update($request->validated());
         });
 
-        return redirect()->route('articleCategory.index');
+        return redirect()->route('admin.article-categories.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ArticleCategory $articleCategory)
+    public function destroy($id)
     {
-        DB::transaction(function () use ($articleCategory) {
-            $articleCategory->delete();
+        DB::transaction(function () use ($id) {
+            ArticleCategory::findOrFail($id)->delete();
         });
 
-        return redirect()->route('articleCategory.index');
+        return redirect()->route('admin.article-categories.index');
     }
 }
