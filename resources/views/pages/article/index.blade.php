@@ -237,7 +237,6 @@
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             let formData = new FormData(this);
-            console.log(formData);
             
             formData.append('_token', csrfToken);
 

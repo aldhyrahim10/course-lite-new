@@ -22,7 +22,7 @@ class UserRoleStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_role_name' => ['required', 'string', 'max:255'],
         ];
     }
 }
