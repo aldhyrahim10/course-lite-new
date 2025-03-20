@@ -53,11 +53,11 @@
                                         <td>{{ $item->category_name }}</td>
                                         <td>{{ $item->course_price }}</td>
                                         <td>{{ $item->instructor_name }}</td>
-                                        <td class="text-center"><img src="{{ Storage::url($item->course_image) }}" width="100"
-                                                alt="">
+                                        <td class="text-center"><img src="{{ Storage::url($item->course_image) }}"
+                                                width="100" alt="">
                                         <td class="text-center">
                                             <div class="btn btn-primary btn-show" data-toggle="modal"
-                                                data-target="#modalShow">
+                                                data-target="#modalDetail">
                                                 <i class="fas fa-eye"></i>
                                             </div>
                                             <div class="btn btn-success btn-edit" data-toggle="modal"
@@ -122,8 +122,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Description</label>
-                                <textarea name="course_description" id="course_description" class="form-control content-desc-add"
-                                    cols="30" rows="10"></textarea>
+                                <textarea name="course_description" id="course_description"
+                                    class="form-control content-desc-add" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@
                                 <!-- Hidden input provides a default of "false" -->
                                 <input type="hidden" name="is_discount" id="is_discount" value="0">
                                 <!-- Checkbox sends "true" if checked -->
-                                <input type="checkbox"  name="is_discount" id="is_discount" value="1">
+                                <input type="checkbox" name="is_discount" id="is_discount" value="1">
                             </div>
                         </div>
                     </div>
@@ -160,8 +160,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Discount Percentage</label>
-                                 <input type="number" class="form-control" name="discount_percentage" id="discount_percentage"
-                                    placeholder="Enter Discount Percentage">
+                                <input type="number" class="form-control" name="discount_percentage"
+                                    id="discount_percentage" placeholder="Enter Discount Percentage">
                             </div>
                         </div>
                     </div>
@@ -222,8 +222,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Description</label>
-                                <textarea name="course_description" id="course_description" class="form-control content-desc-add"
-                                    cols="30" rows="10"></textarea>
+                                <textarea name="course_description" id="course_description"
+                                    class="form-control content-desc-add" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
@@ -252,7 +252,7 @@
                                 <!-- Hidden input provides a default of "false" -->
                                 <input type="hidden" name="is_discount" id="is_discount" value="0">
                                 <!-- Checkbox sends "true" if checked -->
-                                <input type="checkbox"  name="is_discount" id="is_discount" value="1">
+                                <input type="checkbox" name="is_discount" id="is_discount" value="1">
                             </div>
                         </div>
                     </div>
@@ -260,8 +260,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Discount Percentage</label>
-                                 <input type="number" class="form-control" name="discount_percentage" id="discount_percentage"
-                                    placeholder="Enter Discount Percentage">
+                                <input type="number" class="form-control" name="discount_percentage"
+                                    id="discount_percentage" placeholder="Enter Discount Percentage">
                             </div>
                         </div>
                     </div>
@@ -285,6 +285,49 @@
     </div>
 </div>
 
+{{-- Modal Detail Data --}}
+<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="modalDetailLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="modalDetailabel">Detail Course</h2>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close">X</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a href="#">
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>150</h3>
+    
+                                    <p>Moduls</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-lg-6">
+                        <a href="#">
+                            <div class="small-box bg-primary">
+                                <div class="inner">
+                                    <h3>20</h3>
+                                    <p>Exam</p>
+                                </div>        
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCloseModaDetail" class="btn btn-secondary"
+                    data-dismiss="modal">Tutup</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('scripts')
@@ -315,7 +358,7 @@
 
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
             let formData = new FormData(this);
-            
+
             formData.append('_token', csrfToken);
 
             $.ajax({
@@ -338,7 +381,7 @@
         $(".btn-edit").click(function () {
             var item = $(this).closest('.item-content');
             var id = item.find(".hdnCourseID").val();
-            
+
             $.ajax({
                 url: "{{ route('admin.courses.edit') }}",
                 type: "GET",
@@ -349,13 +392,17 @@
                     var formEditContent = $("#formEditCourse");
                     formEditContent.find("#hdnCourseID").val(data.id);
                     formEditContent.find("#course_name").val(data.course_name);
-                    formEditContent.find("#course_category_id").val(data.course_category_id);
-                    formEditContent.find("#course_description").val(data.course_description);
+                    formEditContent.find("#course_category_id").val(data
+                    .course_category_id);
+                    formEditContent.find("#course_description").val(data
+                    .course_description);
                     formEditContent.find("#course_benefit").val(data.course_benefit);
                     formEditContent.find("#course_price").val(data.course_price);
-                    formEditContent.find("#discount_percentage").val(data.discount_percentage);
+                    formEditContent.find("#discount_percentage").val(data
+                        .discount_percentage);
                     // Set the checkbox for is_discount (assumes a value of 1 means true)
-                    formEditContent.find("#is_discount").prop("checked", data.is_discount == 1);
+                    formEditContent.find("#is_discount").prop("checked", data.is_discount ==
+                        1);
                     // Update the image preview if applicable
                     formEditContent.find("#course_image").attr("src", data.course_image);
                 },
@@ -378,7 +425,8 @@
             formData.append('_method', 'PATCH');
 
             $.ajax({
-                url: "{{ route('admin.courses.update', '') }}/" + id,
+                url: "{{ route('admin.courses.update', '') }}/" +
+                    id,
                 type: "POST", // Use POST and spoof PATCH via _method
                 data: formData,
                 processData: false,
@@ -401,7 +449,8 @@
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
-                    url: "{{ route('admin.courses.destroy', '') }}/" + id,
+                    url: "{{ route('admin.courses.destroy', '') }}/" +
+                        id,
                     type: "POST",
                     data: {
                         '_token': csrfToken,
@@ -419,5 +468,6 @@
             }
         });
     });
+
 </script>
 @endsection

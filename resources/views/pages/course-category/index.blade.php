@@ -91,8 +91,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Course Category Name</label>
-                                <input type="text" class="form-control" name="course_category_name" id="course_category_name"
-                                    placeholder="Enter Course Category Name">
+                                <input type="text" class="form-control" name="course_category_name"
+                                    id="course_category_name" placeholder="Enter Course Category Name">
                             </div>
                         </div>
                     </div>
@@ -123,8 +123,8 @@
                             <div class="form-group">
                                 <label>Course Category Name</label>
                                 <input type="hidden" id="hdnCourseCategoryID" value="">
-                                <input type="text" class="form-control" name="course_category_name" id="course_category_name"
-                                    placeholder="Enter Course Category Name">
+                                <input type="text" class="form-control" name="course_category_name"
+                                    id="course_category_name" placeholder="Enter Course Category Name">
                             </div>
                         </div>
                     </div>
@@ -140,24 +140,26 @@
     </div>
 </div>
 
+
+
 @endsection
 
 @section('scripts')
 <script>
     $(document).ready(function () {
-        $("#formAddCourseCategory").submit(function(e) {
+        $("#formAddCourseCategory").submit(function (e) {
             e.preventDefault();
-            
+
             var csrfToken = $('meta[name="csrf-token"]').attr('content');
-            
+
             var categoryName = $(this).find("#course_category_name").val();
-            
+
             // Validate input before proceeding
             if (!categoryName || categoryName.trim() === "") {
                 alert("Please enter a course category name");
                 return;
             }
-            
+
             $.ajax({
                 url: "{{ route('admin.course-categories.store') }}",
                 type: "POST",
@@ -165,11 +167,11 @@
                     '_token': csrfToken,
                     'course_category_name': categoryName
                 },
-                success: function(response) {
+                success: function (response) {
                     alert("Data Berhasil Ditambahkan");
                     location.reload();
                 },
-                error: function(xhr, status, error) {        
+                error: function (xhr, status, error) {
                     console.error("Error saving course category:", xhr.responseText);
                     alert("Failed to save category. Please try again.");
                 }
@@ -195,7 +197,7 @@
                     formEditContent.find("#hdnCourseCategoryID").val(courseID);
                     formEditContent.find("#course_category_name").val(categoryName);
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     console.error("Error fetching category data:", xhr.responseText);
                     alert("Failed to load category data.");
                 }
@@ -211,18 +213,19 @@
             var categoryName = $(this).find("#course_category_name").val();
 
             $.ajax({
-                url: "{{ route('admin.course-categories.update', '') }}/" + id,
+                url: "{{ route('admin.course-categories.update', '') }}/" +
+                    id,
                 type: "POST",
                 data: {
                     '_token': csrfToken,
                     '_method': 'PATCH',
                     'course_category_name': categoryName
                 },
-                success: function(response) {
+                success: function (response) {
                     alert("Data Berhasil Diperbarui");
                     location.reload();
                 },
-                error: function(xhr) {
+                error: function (xhr) {
                     console.error("Error when sending category data:", xhr.responseText);
                     alert("Failed to edit category data.");
                 }
@@ -237,7 +240,8 @@
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
                 $.ajax({
-                    url: "{{ route('admin.course-categories.destroy', '') }}/" + id,
+                    url: "{{ route('admin.course-categories.destroy', '') }}/" +
+                        id,
                     type: "POST",
                     data: {
                         '_token': csrfToken,
@@ -247,8 +251,9 @@
                         alert("Data Berhasil Dihapus");
                         location.reload();
                     },
-                    error: function(xhr) {
-                        console.error("Error when deleting category data:", xhr.responseText);
+                    error: function (xhr) {
+                        console.error("Error when deleting category data:", xhr
+                            .responseText);
                         alert("Failed to delete category data.");
                     }
                 });

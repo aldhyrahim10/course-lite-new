@@ -12,7 +12,7 @@ class CourseMaterialController extends Controller
      */
     public function index()
     {
-        //
+        return view('pages.course.materials.index');
     }
 
     /**
