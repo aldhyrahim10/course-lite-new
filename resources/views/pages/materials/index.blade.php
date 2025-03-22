@@ -35,11 +35,11 @@
                             <thead class="text-center">
                                 <tr>
                                     <th style="width: 10%">No</th>
-                                    <th>Course</th>
+                                    
                                     <th>Module Title</th>
                                     <th>Description</th>
                                     <th>Modul</th>
-                                    <th>Video</th>
+                                    {{-- <th>Video</th> --}}
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -50,9 +50,9 @@
                                             {{ $loop->iteration }}
                                             <input type="hidden" class="hdnCourseMaterialID" value="{{ $item->id }}">
                                         </td>
-                                        <td>{{ $item->course->course_name }}</td>
+                                        
                                         <td>{{ $item->course_material_title }}</td>
-                                        <td>{{ $item->course_material_description }}</td>
+                                        <td>{!! $item->course_material_description !!}</td>
                                         <td>
                                             @if(!empty($item->course_material_modul))
                                                 <a href="{{ Storage::url($item->course_material_modul) }}" target="_blank">Download Modul</a>
@@ -60,11 +60,11 @@
                                                 <span>No file available</span>
                                             @endif
                                         </td>
-                                        <td class="text-center">
+                                        {{-- <td class="text-center">
                                             <video width="320" height="240" controls>
                                                 <source src="{{ Storage::url($item->course_material_video) }}" type="video/mp4">
                                             </video>
-                                        </td>
+                                        </td> --}}
                                         <td class="text-center">
                                             <div class="btn btn-success btn-edit" data-toggle="modal"
                                                 data-target="#modalEdit">
@@ -174,7 +174,7 @@
                             <div class="form-group">
                                 <label>Modul Description</label>
                                 <textarea name="course_material_description" id="course_material_description"
-                                    class="form-control content-desc-add" cols="30" rows="10"></textarea>
+                                    class="form-control content-desc-edit" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
@@ -208,8 +208,7 @@
 @endsection
 
 @section('scripts')
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-{{-- <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
 <script>
     ClassicEditor
         .create(document.querySelector('.content-desc-add'))
@@ -218,7 +217,7 @@
     ClassicEditor
         .create(document.querySelector('.content-desc-edit'))
         .catch(error => console.error(error));
-</script> --}}
+</script>
 
 <script>
     $(document).ready(function () {
@@ -333,3 +332,5 @@
     });
 
 </script>
+
+@endsection

@@ -26,7 +26,7 @@ class CourseMaterialStoreRequest extends FormRequest
             'course_material_title' => 'required|string',
             'course_material_description' => 'required|string',
             'course_material_modul' => 'required|file|mimes:pdf,doc,docx,ppt,pptx',
-            'course_material_video' => 'required|file|mimes:mp4,webm,ogg',
+            'course_material_video' => 'nullable|file|mimes:mp4,webm,ogg',
         ];
     }
 }

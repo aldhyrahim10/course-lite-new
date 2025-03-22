@@ -308,7 +308,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <a href="#" >
+                        <a href="" class="btn-exam-link">
                             <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3>20</h3>
@@ -472,12 +472,18 @@
             var item = $(this).closest('.item-content');
             var id = item.find(".hdnCourseID").val();
             var routeModuls = "{{ route('admin.course-materials.index', ['id' => '__ID__']) }}";
-            
+
+            var routeExams = "{{ route('admin.course-exam.index', ['id' => '__ID__']) }}";
+
             routeModuls = routeModuls.replace('__ID__', id);
+
+            routeExams = routeExams.replace('__ID__', id);
 
             var modalDetail = $("#modalDetail");
 
             var linkModul = modalDetail.find(".btn-modul-link").attr('href', routeModuls);
+
+            var linkExam = modalDetail.find(".btn-exam-link").attr('href', routeExams);
 
             $.ajax({
                 url: "{{ route('admin.course-materials.count') }}",

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('course_material_title');
             $table->text('course_material_description');
             $table->string('course_material_modul');
-            $table->string('course_material_video');
+            $table->string('course_material_video')->nullable();
             $table->timestamps();
         });
     }
