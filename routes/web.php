@@ -50,8 +50,6 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/courses/{id}/moduls', [CourseMaterialController::class, 'index'])->name('admin.course-materials.index');
 
     Route::get('/courses/{id}/exams', [CourseExamController::class, 'index'])->name('admin.course-exam.index');
-
-
 });
 
 // User List
@@ -96,3 +94,9 @@ Route::post('/course-materials', [CourseMaterialController::class, 'store'])->na
 Route::get('/get-one-course-materials', [CourseMaterialController::class, 'getOneData'])->name('admin.course-materials.edit');
 Route::patch('/update-course-materials/{id}', [CourseMaterialController::class, 'update'])->name('admin.course-materials.update');
 Route::delete('/delete-course-materials/{id}', [CourseMaterialController::class, 'destroy'])->name('admin.course-materials.destroy');
+
+// Course Exams
+Route::post('/course-exam', [CourseExamController::class, 'store'])->name('admin.course-exam.store');
+Route::get('/get-one-course-exam', [CourseExamController::class, 'getOneData'])->name('admin.course-exam.edit');
+Route::patch('/update-course-exam/{id}', [CourseExamController::class, 'update'])->name('admin.course-exam.update');
+Route::delete('/delete-course-exam/{id}', [CourseExamController::class, 'destroy'])->name('admin.course-exam.destroy');

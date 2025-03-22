@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('course_exam_answer_description');
             $table->boolean('is_true')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('course_material_modul');
             $table->string('course_material_video')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

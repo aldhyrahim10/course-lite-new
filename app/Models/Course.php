@@ -32,4 +32,9 @@ class Course extends Model
     {
         return $this->hasMany(CourseMaterial::class);
     }
+
+    public function courseExam()
+    {
+        return $this->hasMany(CourseExam::class);
+    }
 }

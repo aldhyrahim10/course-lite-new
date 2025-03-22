@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('total_payment');
             $table->boolean('status')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -6,6 +6,7 @@ use App\Http\Requests\CourseStoreRequest;
 use App\Http\Requests\CourseUpdateRequest;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Models\CourseExam;
 use App\Models\CourseMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,7 +52,11 @@ class CourseController extends Controller
         $query = $request->get('query');
         
         $moduleCount = CourseMaterial::where('course_id', $query)->count();
-        return response()->json($moduleCount);
+        $examCount = CourseExam::where('course_id', $query)->count();
+        return response()->json([
+            'moduleCount' => $moduleCount,
+            'examCount' => $examCount
+        ]);
     }
 
     /**
