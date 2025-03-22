@@ -6,6 +6,7 @@ use App\Http\Requests\CourseStoreRequest;
 use App\Http\Requests\CourseUpdateRequest;
 use App\Models\Course;
 use App\Models\CourseCategory;
+use App\Models\CourseMaterial;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,30 +19,39 @@ class CourseController extends Controller
      */
     public function index()
     {
+        // ID role admin
+        $adminRoleId = 1;
         
-        $instructorID = Auth::user()->id;
-
-        if(Auth::user()->user_role_id == "1"){
-            $courses = Course::join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')
+        // Cek apakah pengguna adalah admin
+        $isAdmin = Auth::user()->user_role_id === $adminRoleId;
+        
+        // Base query
+        $coursesQuery = Course::join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')
             ->join('users', 'courses.instructor_id', '=', 'users.id')
-            ->select('courses.*', 'course_categories.course_category_name as category_name', 'users.name as instructor_name')
-            ->get();
-            
-            $category = CourseCategory::all();
-
-            return view('pages.course.index', compact('courses', 'category'));
-        } else {
-            $courses = Course::join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')
-            ->join('users', 'courses.instructor_id', '=', 'users.id')
-            ->select('courses.*', 'course_categories.course_category_name as category_name', 'users.name as instructor_name')
-            ->where("courses.instructor_id", $instructorID)
-            ->get();
-            
-            $category = CourseCategory::all();
-
-            return view('pages.course.index', compact('courses', 'category'));
+            ->select('courses.*', 'course_categories.course_category_name as category_name', 'users.name as instructor_name');
+        
+        // filter untuk pengguna non-admin
+        if (!$isAdmin) {
+            $coursesQuery->where('courses.instructor_id', Auth::id());
         }
         
+        // Ambil data
+        $courses = $coursesQuery->get();
+        
+        $category = CourseCategory::all();
+        
+        return view('pages.course.index', compact('courses', 'category'));
+    }
+
+    public function getModuleCount(Request $request) {
+        $request->validate([
+            'query' => 'required|integer', 
+        ]);
+    
+        $query = $request->get('query');
+        
+        $moduleCount = CourseMaterial::where('course_id', $query)->count();
+        return response()->json($moduleCount);
     }
 
     /**
@@ -85,7 +95,7 @@ class CourseController extends Controller
                 'course_price' => $validated['course_price'],
                 'course_benefit' => $validated['course_benefit'],
                 'is_discount' => $validated['is_discount'],
-                'discount_percentage' => $validated['discount_percentage'],
+                'discount_percentage' => $validated['discount_percentage'] ?? 0,
                 'course_description' => $validated['course_description'],
                 'instructor_id' => $instructorID,
             ]);
