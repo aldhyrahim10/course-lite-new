@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('course_exam_point');
             $table->boolean('is_passed')->default(false);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

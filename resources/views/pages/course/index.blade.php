@@ -311,7 +311,7 @@
                         <a href="" class="btn-exam-link">
                             <div class="small-box bg-primary">
                                 <div class="inner">
-                                    <h3>20</h3>
+                                    <h3 id="totalExam"></h3>
                                     <p>Exam</p>
                                 </div>        
                             </div>
@@ -492,8 +492,11 @@
                     'query': id
                 },
                 success: function (data) {
-                    var value = data === 0 ? 0 : data;
-                    modalDetail.find("#totalModul").text(value);
+                    var moduleCount = data.moduleCount === 0 ? 0 : data.moduleCount;
+                    var examCount = data.examCount === 0 ? 0 : data.examCount;
+                    
+                    modalDetail.find("#totalModul").text(moduleCount);
+                    modalDetail.find("#totalExam").text(examCount);
                 },
                 error: function (xhr) {
                     console.error("Error fetching course data:", xhr.responseText);

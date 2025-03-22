@@ -18,6 +18,7 @@ return new class extends Migration
             $table->text('course_exam_description');
             $table->text('course_total_question');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
