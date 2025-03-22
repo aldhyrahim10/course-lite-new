@@ -50,6 +50,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/courses/{id}/moduls', [CourseMaterialController::class, 'index'])->name('admin.course-materials.index');
 
     Route::get('/courses/{id}/exams', [CourseExamController::class, 'index'])->name('admin.course-exam.index');
+    Route::get('/courses/{id}/exams/{idExam}', [CourseExamController::class, 'show'])->name('admin.course-exam.show');
 
 
 });
