@@ -19,10 +19,11 @@ return new class extends Migration
             $table->text('course_description');
             $table->text('course_benefit');
             $table->integer('course_price');
-            $table->string('course_image');
+            $table->string('course_image')->nullable();
             $table->boolean('is_discount')->default(false);
             $table->integer('discount_percentage');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('no_telp');
-            $table->string('user_image');
+            $table->string('user_image')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
