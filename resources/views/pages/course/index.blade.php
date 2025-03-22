@@ -300,7 +300,7 @@
                         <a href="" class="btn-modul-link">
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>150</h3>
+                                    <h3 id="totalModul"></h3>
     
                                     <p>Moduls</p>
                                 </div>
@@ -468,7 +468,6 @@
             }
         });
 
-
         $(".btn-show").click(function(){
             var item = $(this).closest('.item-content');
             var id = item.find(".hdnCourseID").val();
@@ -480,6 +479,20 @@
 
             var linkModul = modalDetail.find(".btn-modul-link").attr('href', routeModuls);
 
+            $.ajax({
+                url: "{{ route('admin.course-materials.count') }}",
+                type: "GET",
+                data: {
+                    'query': id
+                },
+                success: function (data) {
+                    var value = data === 0 ? 0 : data;
+                    modalDetail.find("#totalModul").text(value);
+                },
+                error: function (xhr) {
+                    console.error("Error fetching course data:", xhr.responseText);
+                }
+            });
         });
     });
 

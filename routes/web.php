@@ -66,6 +66,7 @@ Route::post('/courses', [CourseController::class, 'store'])->name('admin.courses
 Route::get('/get-one-course', [CourseController::class, 'getOneData'])->name('admin.courses.edit');
 Route::patch('/update-courses/{id}', [CourseController::class, 'update'])->name('admin.courses.update');
 Route::delete('/delete-courses/{id}', [CourseController::class, 'destroy'])->name('admin.courses.destroy');
+Route::get('/get-course-count', [CourseController::class, 'getModuleCount'])->name('admin.course-materials.count');
 
 // Course Categories
 Route::post('/course-categories', [CourseCategoryController::class, 'store'])->name('admin.course-categories.store');
@@ -84,3 +85,9 @@ Route::post('/article-categories', [ArticleCategoryController::class, 'store'])-
 Route::get('/get-one-article-categories', [ArticleCategoryController::class, 'getOneData'])->name('admin.article-categories.edit');
 Route::patch('/update-article-categories/{id}', [ArticleCategoryController::class, 'update'])->name('admin.article-categories.update');
 Route::delete('/delete-article-categories/{id}', [ArticleCategoryController::class, 'destroy'])->name('admin.article-categories.destroy');
+
+// Course Materials
+Route::post('/course-materials', [CourseMaterialController::class, 'store'])->name('admin.course-materials.store');
+Route::get('/get-one-course-materials', [CourseMaterialController::class, 'getOneData'])->name('admin.course-materials.edit');
+Route::patch('/update-course-materials/{id}', [CourseMaterialController::class, 'update'])->name('admin.course-materials.update');
+Route::delete('/delete-course-materials/{id}', [CourseMaterialController::class, 'destroy'])->name('admin.course-materials.destroy');

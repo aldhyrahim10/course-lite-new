@@ -29,7 +29,7 @@ class CourseStoreRequest extends FormRequest
             'course_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'course_benefit' => 'required|string',
             'is_discount' => 'required|boolean',
-            'discount_percentage' => 'required_if:is_discount,true|integer',
+            'discount_percentage' => 'sometimes|nullable',
         ];
     }
 }
