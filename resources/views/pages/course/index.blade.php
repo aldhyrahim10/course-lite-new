@@ -286,7 +286,7 @@
 </div>
 
 {{-- Modal Detail Data --}}
-<div class="modal fade" id="modalDetail" tabindex="-1" aria-labelledby="modalDetailLabel" aria-hidden="true">
+<div class="modal fade" id="modalDetail" class="modalBodyDetail" tabindex="-1" aria-labelledby="modalDetailLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -297,7 +297,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-lg-6">
-                        <a href="#">
+                        <a href="" class="btn-modul-link">
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3>150</h3>
@@ -308,7 +308,7 @@
                         </a>
                     </div>
                     <div class="col-lg-6">
-                        <a href="#">
+                        <a href="#" >
                             <div class="small-box bg-primary">
                                 <div class="inner">
                                     <h3>20</h3>
@@ -466,6 +466,20 @@
                     }
                 });
             }
+        });
+
+
+        $(".btn-show").click(function(){
+            var item = $(this).closest('.item-content');
+            var id = item.find(".hdnCourseID").val();
+            var routeModuls = "{{ route('admin.course-materials.index', ['id' => '__ID__']) }}";
+            
+            routeModuls = routeModuls.replace('__ID__', id);
+
+            var modalDetail = $("#modalDetail");
+
+            var linkModul = modalDetail.find(".btn-modul-link").attr('href', routeModuls);
+
         });
     });
 

@@ -8,6 +8,8 @@ use App\Http\Controllers\CourseCategoryController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserListController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\CourseMaterialController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -43,6 +45,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     
     Route::get('/user-list', [UserListController::class, 'index'])->name('admin.user-list.index');
     Route::get('/user-role', [UserRoleController::class, 'index'])->name('admin.user-role.index');
+
+    Route::get('/courses/{id}/moduls', [CourseMaterialController::class, 'index'])->name('admin.course-materials.index');
 });
 
 // User List
