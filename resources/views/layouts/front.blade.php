@@ -52,7 +52,12 @@
               </a>
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="{{route('admin.dashboard')}}">Dashboard</a></li>
-                <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
+                <li>
+                  <form action="{{route('logout')}}" method="post">
+                    @csrf
+                    <button class="dropdown-item">Logout</button></li>
+                  </form>
+                  
               </ul>
             </li>
           @else

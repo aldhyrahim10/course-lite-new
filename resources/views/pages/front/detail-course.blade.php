@@ -24,7 +24,7 @@
                     <p class="mt-2 category">{{ $course->courseCategory->course_category_name }}</p>
                     <p class="mt-2 course-price">Rp {{ number_format($course->course_price, 0, ',', '.') }}</p>
                     @if ($recordExist)
-                        <p>Sudah Bergabung Ke Course</p>
+                    <div class="btn btn-secondary w-100 mt-3">Sudah Bergabung</div>
                     @else               
                         <div class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Enroll Course</div>
                     @endif
