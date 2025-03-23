@@ -58,6 +58,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/courses/{id}/exams/{idExam}', [CourseExamController::class, 'show'])->name('admin.course-exam.show');
 
     Route::get('/courses/{id}/exams/{idExam}/execute', [CourseExamController::class, 'executeExam'])->name('admin.course-exam.execute');
+    
+    Route::get('/transactions', [TransactionCourseController::class, 'index'])->name('admin.transactions.index');
 });
 
 // User List
