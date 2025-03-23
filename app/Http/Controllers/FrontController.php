@@ -22,6 +22,14 @@ class FrontController extends Controller
         return view('pages.front.articles');
     }
 
+    public function articleDetail(){
+        return view('pages.front.detail-article');
+    }
+
+    public function courseDetail(){
+        return view('pages.front.detail-course');
+    }
+
     /**
      * Show the form for creating a new resource.
      */

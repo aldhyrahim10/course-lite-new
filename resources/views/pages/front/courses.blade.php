@@ -18,6 +18,7 @@
 
   <div class="courses-all mt-5 row">
     <div class="col-lg-3 mt-4">
+     <a style="text-decoration: none;" href="{{route("courses-detail-page")}}">
       <div class="card-product shadow">
         <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
         <div class="card-content p-2">
@@ -30,8 +31,9 @@
           <p class="price">
             Rp 500.000,00
           </p>
-        </div>
+        </div> 
       </div>
+     </a>
     </div>
     <div class="col-lg-3 mt-4">
       <div class="card-product shadow">
