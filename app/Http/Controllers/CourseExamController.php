@@ -50,6 +50,15 @@ class CourseExamController extends Controller
         return response()->json($courseExamQuestion);
     }
     
+    public function executeExam($id, $idExam){
+        $courseExam = CourseExam::where('id', $idExam)->first();
+
+        $courseAnswers = CourseExamQuestion::where('course_exam_id', $idExam)
+            ->with('answers')  // Assuming you have the relationship set up
+            ->get();
+        
+        return view("pages.exam.execute", compact('courseExam', 'courseAnswers'));
+    }
 
     /**
      * Show the form for creating a new resource.
