@@ -53,11 +53,13 @@ class CourseExamController extends Controller
     public function executeExam($id, $idExam){
         $courseExam = CourseExam::where('id', $idExam)->first();
 
+        $course_id = $id;
+
         $courseAnswers = CourseExamQuestion::where('course_exam_id', $idExam)
             ->with('answers')  // Assuming you have the relationship set up
             ->get();
         
-        return view("pages.exam.execute", compact('courseExam', 'courseAnswers'));
+        return view("pages.exam.execute", compact('courseExam', 'courseAnswers', 'course_id'));
     }
 
     /**

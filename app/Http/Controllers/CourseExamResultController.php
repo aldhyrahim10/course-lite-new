@@ -29,7 +29,7 @@ class CourseExamResultController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'course_id' => 'required|integer|exists:course,id',
+            'course_id' => 'required|integer|exists:courses,id',
             'student_user_id' => 'required|integer|exists:users,id',
             'course_exam_point' => 'required|integer',
             'is_passed' => 'required',
