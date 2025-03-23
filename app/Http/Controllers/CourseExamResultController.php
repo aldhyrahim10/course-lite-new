@@ -15,18 +15,6 @@ class CourseExamResultController extends Controller
      */
     public function index()
     {   
-        // ID role admin
-
-        $instructorRoleId = 2;
-
-        $studentRoleId = 3;
-        
-        // Cek apakah pengguna adalah admin
-
-        $isInstructor = Auth::user()->user_role_id === $instructorRoleId;
-
-        $isStudent = Auth::user()->user_role_id === $studentRoleId;
-        
         // Base query
         $courseStudentQuery = CourseExamResult::join('courses', 'course_exam_results.course_id', '=', 'courses.id')
             ->join('users', 'course_exam_results.student_user_id', '=', 'users.id')
@@ -34,21 +22,17 @@ class CourseExamResultController extends Controller
                 'course_exam_results.*', 
                 'courses.*', 
                 'users.name as user_name'
-            );
-
-        if ($isInstructor) {
-            $query = $courseStudentQuery->where('courses.instructor_id', Auth::user()->id);
-        } elseif ($isStudent) {
-            $query = $courseStudentQuery->where('course_exam_results.student_user_id', Auth::user()->id);
-        }
-
-        $results = $query->get();
+            )->where('course_exam_results.student_user_id', Auth::user()->id)->get();
 
         return view('pages.exam.result', compact('results'));
     }
 
     public function indexAdmin() {
-        $courses = Course::get();
+        if (Auth::user()->user_role_id === 2) {
+            $courses = Course::where('instructor_id', Auth::user()->id)->get();
+        } else {
+            $courses = Course::get();
+        }
 
         return view('pages.exam.result-admin', compact('courses'));
     }
