@@ -45,14 +45,20 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="question">
-                                <p>{{ $item->course_exam_question_description }}</p>
+                                <p>{!! $item->course_exam_question_description !!}</p>
                             </div>
                             <div class="answer">
                                 @foreach ($item->answers as $item)
                                     <div>
-                                        <input type="hidden" name="is_true" value="{{ $item->is_true }}">
-                                        <input type="radio" name="rboQuestion1" id="rboQuestion1" value="{{ $item->id }}" >
-                                        {{ $item->course_exam_answer_description }}
+                                        @if($item->is_true)
+                                            <input type="hidden" name="is_true" value="{{ $item->is_true }}">
+                                            <input type="radio" name="rboQuestion{{ $loop->iteration }}" id="rboQuestion{{ $loop->iteration }}" value="{{ $item->id }}" disabled checked >
+                                            {{ $item->course_exam_answer_description }}
+                                        @else
+                                            <input type="hidden" name="is_true" value="{{ $item->is_true }}">
+                                            <input type="radio" name="rboQuestion{{ $loop->iteration }}" id="rboQuestion{{ $loop->iteration }}" value="{{ $item->id }}" disabled>
+                                            {{ $item->course_exam_answer_description }}
+                                        @endif
                                         <br>
                                     </div>
                                 @endforeach
