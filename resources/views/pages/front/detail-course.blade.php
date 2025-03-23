@@ -23,11 +23,21 @@
                     <p class="title">{{ $course->course_name }}</p>
                     <p class="mt-2 category">{{ $course->courseCategory->course_category_name }}</p>
                     <p class="mt-2 course-price">Rp {{ number_format($course->course_price, 0, ',', '.') }}</p>
-                    @if ($recordExist)
-                        <p>Sudah Bergabung Ke Course</p>
-                    @else               
-                        <div class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Enroll Course</div>
-                    @endif
+                    @auth
+                        @if ($recordExist)
+                            <p>Sudah Bergabung Ke Course</p>
+                        @else               
+                            <div class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Enroll Course
+                            </div>
+                        @endif
+                    @endauth
+
+                    @guest
+                        <div class="alert alert-warning">
+                            Please log in to enroll in the course.
+                        </div>
+                    @endguest
                 </div>
             </div>
             <h4 class="mt-3">Course Lainnya</h4>

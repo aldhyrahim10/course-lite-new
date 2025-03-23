@@ -125,7 +125,7 @@
                             </a>
                         </li>
                     @endif
-                    @if (Auth::user()->user_role_id === 1)
+                    @if (Auth::user()->user_role_id !== 3)
                         <li class="nav-item">
                             <a href="{{ route('admin.exam-result-course-admin.index') }}" class="nav-link">
                                 <i class="nav-icon fas fa-th"></i>
