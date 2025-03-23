@@ -136,22 +136,31 @@
             <form id="formEditExam" enctype="multipart/form-data">    
                 <input type="hidden" id="hdnCourseExamID" name="course_exam_id">
                 <div class="modal-body">
-                    <input type="hidden" id="hdnCourseID" name="course_id">
+                    <input type="hidden" name="course_exam_id" value="{{ $courseExam->id }}">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Exam Name</label>
-                                <input type="text" class="form-control" name="course_exam_title" id="course_exam_title"
-                                    placeholder="Enter Exam Name">
+                                <label>Question</label>
+                                <textarea name="course_exam_question_description" id="course_exam_question_description"
+                                    class="form-control content-desc-add" cols="30" rows="10"></textarea>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label>Exam Description</label>
-                                <textarea name="course_exam_description" id="course_exam_description"
-                                    class="form-control content-desc-edit" cols="30" rows="10"></textarea>
+                                <label>Answer</label>
+                                <div class="row">
+                                    @for ($i = 0; $i < 4; $i++)
+                                        <div class="col-lg-6 mt-2">
+                                            <div class="input-answer d-flex">
+                                                <input type="text" class="form-control" name="course_exam_answer_description[{{ $i }}]"
+                                                    id="course_exam_answer_description" placeholder="Enter Answer {{$i+1}}"> 
+                                                <input type="checkbox" class="ml-1" name="is_true" id="is_true[{{ $i }}]" value="1">
+                                            </div>
+                                        </div>
+                                    @endfor
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -219,6 +228,95 @@
                 error: function (error) {
                     console.error("Error:", error);
                     alert("Gagal menambahkan data");
+                }
+            });
+        });
+
+        $(".btn-edit").click(function () {
+            // Get the question ID from the data attribute
+            var item = $(this).closest('.item-content');
+            var id = item.find(".hdnCourseExamID").val();
+            
+            $.ajax({
+                url: "{{ route('admin.course-exam-question.edit') }}",
+                type: "GET",
+                data: {
+                    'query': id
+                },
+                success: function (data) {
+                    var formEditContent = $("#formEditExam");
+                    
+                    // Set question ID and description
+                    formEditContent.find("#hdnCourseExamID").val(data.id);
+                    formEditContent.find("#course_exam_question_description").val(data.course_exam_question_description);
+                    
+                    // Clear all checkboxes first
+                    formEditContent.find('input[type="checkbox"]').prop('checked', false);
+                    
+                    // Set answer values and checkboxes
+                    if (data.answers && data.answers.length > 0) {
+                        for (var i = 0; i < Math.min(data.answers.length, 4); i++) {
+                            formEditContent.find('input[name="course_exam_answer_description[' + i + ']"]')
+                                .val(data.answers[i].course_exam_answer_description);
+                            
+                            if (data.answers[i].is_true == 1) {
+                                formEditContent.find('#is_true\\[' + i + '\\]').prop('checked', true);
+                            }
+                        }
+                        
+                        // Clear any remaining answer fields if there are less than 4 answers
+                        for (var i = data.answers.length; i < 4; i++) {
+                            formEditContent.find('input[name="course_exam_answer_description[' + i + ']"]').val('');
+                        }
+                    }
+                },
+                error: function (xhr) {
+                    console.error("Error fetching question data:", xhr.responseText);
+                    alert("Gagal mengambil data");
+                }
+            });
+        });
+
+        $('#formEditExam').submit(function (e) {
+            e.preventDefault();
+
+            var id = $(this).find("#hdnCourseExamID").val();
+            var questionDescription = $(this).find("#course_exam_question_description").val();
+
+            let formData = {
+                id: $('#hdnCourseExamID').val(),
+                course_exam_id: $('input[name="course_exam_id"]').val(),
+                course_exam_question_description: questionDescription,
+                answers: [], // Initialize an empty array for answers
+                _method: 'PATCH'
+            };
+
+            $('.input-answer').each(function(index) {
+                let answerText = $(this).find('input[type="text"]').val() || '';
+                let is_true = $(this).find('input[type="checkbox"]').is(':checked');
+                
+                // Only include non-empty answers
+                if (answerText.trim() !== '') {
+                    formData.answers.push({
+                        course_exam_answer_description: answerText,
+                        is_true: is_true ? 1 : 0
+                    });
+                }
+            });
+
+            console.log(formData);
+            
+            $.ajax({
+                url: "{{ route('admin.course-exam-question.update', '') }}/" + id,
+                type: "POST",
+                data: formData,
+                success: function (response) {
+                    alert("Data Berhasil Diperbarui");
+                    location.reload();
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                    alert("Gagal memperbarui data");
                 }
             });
         });
