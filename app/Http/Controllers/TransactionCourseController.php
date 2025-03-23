@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TransactionCourse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionCourseController extends Controller
 {
@@ -28,7 +29,19 @@ class TransactionCourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'user_id' => 'nullable',
+            'course_id' => 'required|integer|exists:courses,id',
+            'total_payment' => 'required|integer',
+            'status' => 'nullable',
+        ]);
+
+        $validated['user_id'] = Auth::user()->id;
+        $validated['status'] = 0;
+
+        TransactionCourse::create($validated);
+
+        return redirect()->back();
     }
 
     /**

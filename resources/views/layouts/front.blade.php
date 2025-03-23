@@ -35,9 +35,21 @@
           <li class="nav-item mx-2">
             <a class="nav-link" href="{{route('articles-page')}}">Articles</a>
           </li>
-          <li class="nav-item mx-2">
-            <a class="btn btn-primary" href="{{route('login')}}">Sign In</a>
-          </li>
+          @if (Auth::check())
+            <li class="nav-item mx-2">
+              <a class="btn btn-primary" href="{{route('admin.dashboard')}}">Dashboard</a>
+            </li>
+            <li class="nav-item mx-2">
+              <form action="{{route('logout')}}" method="post">
+                @csrf
+                <button class="btn btn-danger">Logout</button>
+              </form>
+            </li>
+          @else
+            <li class="nav-item mx-2">
+              <a class="btn btn-primary" href="{{route('login')}}">Sign In</a>
+            </li>
+          @endif
         </ul>
       </div>
     </div>
