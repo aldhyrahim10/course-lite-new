@@ -26,7 +26,7 @@
                     <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
                     <li class="nav-item">
-                        <a href="{{route("admin.dashboard")}}" class="nav-link">
+                        <a href="{{ route("admin.dashboard") }}" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Dashboard
@@ -108,39 +108,74 @@
 
                 </ul>
             </nav>
+        @elseif(Auth::user()->user_role_id == 2){
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
+                 with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="{{ route("admin.dashboard") }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Course
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.courses.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Course List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+            }
         @else
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-                <li class="nav-item">
-                    <a href="{{route("admin.dashboard")}}" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Dashboard
-                        </p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Course
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.courses.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Course List</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                
-            </ul>
-        </nav>
+                    <li class="nav-item">
+                        <a href="{{ route("admin.dashboard") }}" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Course
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.courses.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Course List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
         @endif
         <!-- /.sidebar-menu -->
     </div>

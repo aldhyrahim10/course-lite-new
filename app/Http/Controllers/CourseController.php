@@ -22,18 +22,30 @@ class CourseController extends Controller
     {
         // ID role admin
         $adminRoleId = 1;
+
+        $studentRoleId = 3;
         
         // Cek apakah pengguna adalah admin
         $isAdmin = Auth::user()->user_role_id === $adminRoleId;
+
+        $isStudent = Auth::user()->user_role_id === $studentRoleId;
         
         // Base query
         $coursesQuery = Course::join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')
             ->join('users', 'courses.instructor_id', '=', 'users.id')
             ->select('courses.*', 'course_categories.course_category_name as category_name', 'users.name as instructor_name');
+
+        $courseStudentQuery = "";
         
         // filter untuk pengguna non-admin
         if (!$isAdmin) {
-            $coursesQuery->where('courses.instructor_id', Auth::id());
+            
+
+            if (!$isStudent) {
+                $coursesQuery->where('courses.instructor_id', Auth::id());
+            } else {
+
+            }
         }
         
         // Ambil data
