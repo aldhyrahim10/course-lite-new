@@ -11,14 +11,15 @@ use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\CourseExamController;
 use App\Http\Controllers\FrontController;
+use App\Http\Controllers\TransactionCourseController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [FrontController::class, 'index'])->name('home-page');
 Route::get('/courses', [FrontController::class, 'coursesPage'])->name('courses-page');
-Route::get('/courses/detail', [FrontController::class, 'courseDetail'])->name('courses-detail-page');
+Route::get('/courses/detail/{id}', [FrontController::class, 'courseDetail'])->name('courses-detail-page');
 Route::get('/articles', [FrontController::class, 'articlesPage'])->name('articles-page');
-Route::get('/articles/detail', [FrontController::class, 'articleDetail'])->name('articles-detail-page');
+Route::get('/articles/detail/{id}', [FrontController::class, 'articleDetail'])->name('articles-detail-page');
 
 
 Route::controller(LoginController::class)->group(function () {
@@ -56,6 +57,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/courses/{id}/exams/{idExam}', [CourseExamController::class, 'show'])->name('admin.course-exam.show');
 
+    Route::post('/enroll-course', [TransactionCourseController::class, 'store'])->name('admin.enroll-course.store');
 });
 
 // User List
