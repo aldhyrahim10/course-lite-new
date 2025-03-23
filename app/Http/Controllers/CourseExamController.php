@@ -6,6 +6,7 @@ use App\Http\Requests\CourseExamStoreRequest;
 use App\Http\Requests\CourseExamUpdateRequest;
 use App\Models\Course;
 use App\Models\CourseExam;
+use App\Models\CourseExamQuestion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -59,14 +60,43 @@ class CourseExamController extends Controller
         return redirect()->back();
     }
 
+    public function storeQuestion(Request $request)
+    {
+        $validated = $request->validate([
+            'answers.*.course_exam_answer_description' => 'required|string',
+            'answers.*.is_true' => 'required|boolean',
+            'course_exam_question_description' => 'required|string',
+            'course_exam_id' => 'required|integer|exists:course_exams,id',
+        ]);
+
+        $courseExamQuestion = CourseExamQuestion::create([
+            'course_exam_id' => $validated['course_exam_id'],
+            'course_exam_question_description' => $validated['course_exam_question_description'],
+        ]);
+
+        foreach ($validated['answers'] as $answer) {
+            $courseExamQuestion->answers()->create([
+                'course_exam_question_id' => $courseExamQuestion->id,
+                'course_exam_answer_description' => $answer['course_exam_answer_description'],
+                'is_true' => $answer['is_true'],
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show($idExam)
+    public function show($id, $idExam)
     {
-        $courseExams = CourseExam::with('course')->where('course_id', $idExam)->get();
+        $courseExam = CourseExam::where('id', $idExam)->first();
 
-        return view("pages.exam.detail", compact('courseExams'));
+        $courseAnswers = CourseExamQuestion::where('course_exam_id', $idExam)
+            ->with('answers')  // Assuming you have the relationship set up
+            ->get();
+
+        return view("pages.exam.detail", compact('courseExam', 'courseAnswers'));
     }
 
     /**
@@ -104,4 +134,20 @@ class CourseExamController extends Controller
 
         return redirect()->back();
     }
+
+    public function destroyQuestion($id)
+    {
+        DB::transaction(function() use ($id) {
+            $courseExamQuestion = CourseExamQuestion::findOrFail($id);
+        
+            // Delete associated answers first
+            $courseExamQuestion->answers()->delete();
+            
+            // Then delete the question
+            $courseExamQuestion->delete();
+        });
+
+        return redirect()->back();
+    }
 }
+
