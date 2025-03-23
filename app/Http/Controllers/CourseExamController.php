@@ -36,6 +36,19 @@ class CourseExamController extends Controller
 
         return response()->json($courseExam);
     }
+
+    public function getOneDataQuestion(Request $request)
+    {
+        $request->validate([
+            'query' => 'required|integer', 
+        ]);
+    
+        $query = $request->get('query');
+        
+        $courseExamQuestion = CourseExamQuestion::where('id', $query)->with('answers')->first();
+
+        return response()->json($courseExamQuestion);
+    }
     
 
     /**
@@ -118,6 +131,33 @@ class CourseExamController extends Controller
             $courseExam = CourseExam::findOrFail($id);
             $courseExam->update($validated);
         });
+
+        return redirect()->back();
+    }
+
+    public function updateQuestion(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'answers.*.course_exam_answer_description' => 'sometimes|string',
+            'answers.*.is_true' => 'sometimes|boolean',
+            'course_exam_question_description' => 'sometimes|string',
+        ]);
+
+        $courseExamQuestion = CourseExamQuestion::findOrFail($id);
+        $courseExamQuestion->update([
+            'course_exam_question_description' => $validated['course_exam_question_description'],
+        ]);
+
+        // Delete all answers first
+        $courseExamQuestion->answers()->delete();
+
+        foreach ($validated['answers'] as $answer) {
+            $courseExamQuestion->answers()->create([
+                'course_exam_question_id' => $courseExamQuestion->id,
+                'course_exam_answer_description' => $answer['course_exam_answer_description'],
+                'is_true' => $answer['is_true'],
+            ]);
+        }
 
         return redirect()->back();
     }
