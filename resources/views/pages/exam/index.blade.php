@@ -282,6 +282,7 @@
         $(".btn-delete").click(function () {
             if (confirm("Apakah Anda ingin menghapus data ini?")) {
                 var item = $(this).closest('.item-content');
+                
                 var id = item.find(".hdnCourseExamID").val();
                 var csrfToken = $('meta[name="csrf-token"]').attr('content');
 
