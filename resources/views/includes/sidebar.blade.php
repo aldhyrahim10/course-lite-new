@@ -125,14 +125,25 @@
                             </a>
                         </li>
                     @endif
-                    <li class="nav-item">
-                        <a href="{{ route('admin.exam-result.index') }}" class="nav-link">
-                            <i class="nav-icon fas fa-th"></i>
-                            <p>
-                                Exam Result
-                            </p>
-                        </a>
-                    </li>
+                    @if (Auth::user()->user_role_id === 1)
+                        <li class="nav-item">
+                            <a href="{{ route('admin.exam-result-course-admin.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Exam Result
+                                </p>
+                            </a>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            <a href="{{ route('admin.exam-result.index') }}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Exam Result
+                                </p>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </nav>
         <!-- /.sidebar-menu -->
