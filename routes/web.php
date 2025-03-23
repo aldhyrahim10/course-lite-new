@@ -10,7 +10,7 @@ use App\Http\Controllers\UserListController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\CourseExamController;
-use App\Models\CourseExam;
+use App\Http\Controllers\FrontController;
 use Illuminate\Support\Facades\Route;
 
 
