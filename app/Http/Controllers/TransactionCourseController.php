@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CourseStudent;
 use App\Models\TransactionCourse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,12 @@ class TransactionCourseController extends Controller
         $validated['status'] = 1;
 
         TransactionCourse::create($validated);
+
+        CourseStudent::create([
+            'course_id' => $validated['course_id'],
+            'user_id' => $validated['user_id'],
+            'course_status' => 1,
+        ]);
 
         return redirect()->back();
     }

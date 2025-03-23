@@ -23,7 +23,11 @@
                     <p class="title">{{ $course->course_name }}</p>
                     <p class="mt-2 category">{{ $course->courseCategory->course_category_name }}</p>
                     <p class="mt-2 course-price">Rp {{ number_format($course->course_price, 0, ',', '.') }}</p>
-                    <div class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Enroll Course</div>
+                    @if ($recordExist)
+                        <p>Sudah Bergabung Ke Course</p>
+                    @else               
+                        <div class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Enroll Course</div>
+                    @endif
                 </div>
             </div>
             <h4 class="mt-3">Course Lainnya</h4>
@@ -88,7 +92,6 @@
 
             console.log(totalPayment);
             
-
             $.ajax({
                 url: "{{ route('admin.enroll-course.store') }}",
                 type: "POST",
