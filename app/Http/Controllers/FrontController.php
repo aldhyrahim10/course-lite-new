@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
+use App\Models\Course;
 use Illuminate\Http\Request;
 
 class FrontController extends Controller
@@ -11,23 +13,36 @@ class FrontController extends Controller
      */
     public function index()
     {
-        return view('pages.front.index');
+        $articles = Article::with('category')->get();
+        $courses = Course::with('courseCategory')->get();
+
+        return view('pages.front.index', compact('articles', 'courses'));
     }
 
     public function coursesPage(){
-        return view('pages.front.courses');
+        $courses = Course::with('courseCategory')->get();
+
+        return view('pages.front.courses', compact('courses'));
     }
 
     public function articlesPage(){
-        return view('pages.front.articles');
+        $articles = Article::with('category')->get();
+
+        return view('pages.front.articles', compact('articles'));
     }
 
-    public function articleDetail(){
-        return view('pages.front.detail-article');
+    public function articleDetail($id){
+        $article = Article::with('category')->findOrFail($id);
+        $articles = Article::with('category')->whereNot('id', $id)->get();
+
+        return view('pages.front.detail-article', compact('article', 'articles'));
     }
 
-    public function courseDetail(){
-        return view('pages.front.detail-course');
+    public function courseDetail($id) {
+        $course = Course::with('courseCategory')->findOrFail($id);
+        $courses = Course::with('courseCategory')->whereNot('id', $id)->get();
+
+        return view('pages.front.detail-course', compact('course', 'courses'));
     }
 
     /**

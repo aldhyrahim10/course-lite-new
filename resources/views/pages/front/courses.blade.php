@@ -17,136 +17,32 @@
   </div>
 
   <div class="courses-all mt-5 row">
-    <div class="col-lg-3 mt-4">
-     <a style="text-decoration: none;" href="{{route("courses-detail-page")}}">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
-        </div> 
+    @forelse ($courses as $item)
+      <div class="col-lg-3 mt-4">
+        <a style="text-decoration: none;" href="{{route("courses-detail-page", $item->id)}}">
+          <div class="card-product shadow">
+            <img src="{{ Storage::url($item->course_image) }}" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="{{ $item->course_name }}">
+            <div class="card-content p-2">
+              <h4 class="title">
+                {{ $item->course_name }}
+              </h4>
+              <p class="category">
+                {{ $item->courseCategory->course_category_name }}
+              </p>
+              <p class="price">
+                Rp {{ number_format($item->course_price, 0, ',', '.') }}
+              </p>
+            </div> 
+          </div>
+        </a>
       </div>
-     </a>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
+    @empty
+      <div class="col-lg-12">
+        <div class="alert alert-danger">
+          Data not found
         </div>
       </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Course
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p class="price">
-            Rp 500.000,00
-          </p>
-        </div>
-      </div>
-    </div>
+    @endforelse
   </div>
 </div>
 

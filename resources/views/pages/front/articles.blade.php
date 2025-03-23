@@ -17,134 +17,32 @@
   </div>
 
   <div class="courses-all mt-5 row">
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
+    @forelse ($articles as $item)
+      <div class="col-lg-3 mt-4">
+        <a href="{{ route('articles-detail-page', $item->id) }}" style="text-decoration: none;">
+          <div class="card-product shadow">
+            <img src="{{ Storage::url($item->article_image) }}" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
+            <div class="card-content p-2">
+              <h4 class="title">
+                {{ $item->article_title }}
+              </h4>
+              <p class="category">
+                {{ $item->category->article_category_name }}
+              </p>
+              <p >
+                {!! $item->article_description !!}
+              </p>
+            </div>
+          </div>
+        </a>
+      </div>
+    @empty
+      <div class="col-lg-12">
+        <div class="alert alert-danger">
+          Data not found
         </div>
       </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-3 mt-4">
-      <div class="card-product shadow">
-        <img src="https://png.pngtree.com/thumb_back/fh260/background/20211225/pngtree-mountain-sunset-minimalist-landscape-scenery-wallpaper-full-hd-4k-8k-images-image_934390.jpg" width="100%" height="200px" style="border-top-left-radius: 10px; border-top-right-radius: 10px;" alt="">
-        <div class="card-content p-2">
-          <h4 class="title">
-            Title Articles
-          </h4>
-          <p class="category">
-            Category
-          </p>
-          <p >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae corporis officia est aperiam consectetur aspernatur
-          </p>
-        </div>
-      </div>
-    </div>
+    @endforelse
   </div>
 </div>
 

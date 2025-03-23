@@ -121,24 +121,33 @@
                         </p>
                     </a>
                 </li>
+                @if (Auth::user()->user_role_id == 2)
+                    <li class="nav-item">
+                        <a href="" class="nav-link">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                Course
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('admin.courses.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Course List</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('home-page') }}" class="nav-link">
                         <i class="nav-icon fas fa-th"></i>
                         <p>
-                            Course
-                            <i class="right fas fa-angle-left"></i>
+                            Home
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('admin.courses.index') }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Course List</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                
             </ul>
         </nav>
         @endif
