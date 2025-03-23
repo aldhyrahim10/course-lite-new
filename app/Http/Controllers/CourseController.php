@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\CourseCategory;
 use App\Models\CourseExam;
 use App\Models\CourseMaterial;
+use App\Models\CourseStudent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -35,25 +36,38 @@ class CourseController extends Controller
             ->join('users', 'courses.instructor_id', '=', 'users.id')
             ->select('courses.*', 'course_categories.course_category_name as category_name', 'users.name as instructor_name');
 
-        $courseStudentQuery = "";
+        $courseStudentQuery = CourseStudent::join('courses', 'course_students.course_id', '=', 'courses.id')
+            ->join('users', 'course_students.user_id', '=', 'users.id')
+            ->join('course_categories', 'courses.course_category_id', '=', 'course_categories.id')
+            ->select('course_students.*', 'courses.*', 'course_categories.course_category_name as category_name', 'users.name as instructor_name');
         
         // filter untuk pengguna non-admin
         if (!$isAdmin) {
-            
-
             if (!$isStudent) {
-                $coursesQuery->where('courses.instructor_id', Auth::id());
+                $courses = $coursesQuery->where('courses.instructor_id', Auth::id())->get();
+                
+                $category = CourseCategory::all();
+        
+                return view('pages.course.index', compact('courses', 'category'));
             } else {
-
+                $courses = $courseStudentQuery->where('course_students.user_id', Auth::id())->get();
+                
+                $category = CourseCategory::all();
+        
+                // dd($courses);
+                
+                return view('pages.course.index', compact('courses', 'category'));
             }
+        } else {
+            $courses = $coursesQuery->get();
+        
+            $category = CourseCategory::all();
+        
+            return view('pages.course.index', compact('courses', 'category'));
         }
         
         // Ambil data
-        $courses = $coursesQuery->get();
         
-        $category = CourseCategory::all();
-        
-        return view('pages.course.index', compact('courses', 'category'));
     }
 
     public function getModuleCount(Request $request) {

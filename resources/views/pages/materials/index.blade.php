@@ -28,9 +28,11 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        @if (Auth::user()->user_role_id != 3)
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">
                             Add Data
                         </button>
+                        @endif
                         <table class="myTable table table-bordered table-hover">
                             <thead class="text-center">
                                 <tr>
@@ -40,7 +42,9 @@
                                     <th>Description</th>
                                     <th>Modul</th>
                                     {{-- <th>Video</th> --}}
-                                    <th>Action</th>
+                                    @if (Auth::user()->user_role_id != 3)
+                                        <th>Action</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody id="courseModulTableBody">
@@ -65,6 +69,7 @@
                                                 <source src="{{ Storage::url($item->course_material_video) }}" type="video/mp4">
                                             </video>
                                         </td> --}}
+                                        @if (Auth::user()->user_role_id != 3)
                                         <td class="text-center">
                                             <div class="btn btn-success btn-edit" data-toggle="modal"
                                                 data-target="#modalEdit">
@@ -74,6 +79,8 @@
                                                 <i class="fas fa-trash-alt"></i>
                                             </div>
                                         </td>
+                                        @endif
+                                        
                                     </tr>
                                @endforeach
                             </tbody>

@@ -28,9 +28,11 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        @if (Auth::user()->user_role_id != 3)
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">
                             Add Data
                         </button>
+                        @endif
                         <table class="myTable table table-bordered table-hover">
                             <thead class="text-center">
                                 <tr>
@@ -59,6 +61,13 @@
                                         type="video/mp4">
                                         </video>
                                         </td> --}}
+                                        @if (Auth::user()->user_role_id == 3)
+                                        <td class="text-center">
+                                            <a href="{{ route('admin.course-exam.show', ['id' => $courseName->id, 'idExam' => $item->id]) }}" class="btn btn-primary">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                        </td>
+                                        @else
                                         <td class="text-center">
                                             <a href="{{ route('admin.course-exam.show', ['id' => $courseName->id, 'idExam' => $item->id]) }}" class="btn btn-primary">
                                                 <i class="fas fa-eye"></i>
@@ -71,6 +80,9 @@
                                                 <i class="fas fa-trash-alt"></i>
                                             </div>
                                         </td>
+                                        @endif
+
+                                        
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -27,18 +27,18 @@
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
+                        @if (Auth::user()->user_role_id != 3)
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAdd">
                             Add Data
                         </button>
+                        @endif
                         <table class="myTable table table-bordered table-hover">
                             <thead class="text-center">
                                 <tr>
                                     <th style="width: 10%">No</th>
                                     <th>Name</th>
                                     <th>Category</th>
-                                    <th>Price</th>
                                     <th>Instructor</th>
-                                    <th>Picture</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -47,26 +47,35 @@
                                     <tr class="item-content">
                                         <td>
                                             {{ $loop->iteration }}
+                                            @if (Auth::user()->user_role_id == 3)
+                                            <input type="hidden" class="hdnCourseID" value="{{ $item->course_id }}">
+                                            @else
                                             <input type="hidden" class="hdnCourseID" value="{{ $item->id }}">
+                                            @endif
                                         </td>
                                         <td>{{ $item->course_name }}</td>
                                         <td>{{ $item->category_name }}</td>
-                                        <td>{{ $item->course_price }}</td>
                                         <td>{{ $item->instructor_name }}</td>
-                                        <td class="text-center"><img src="{{ Storage::url($item->course_image) }}"
-                                                width="100" alt="">
                                         <td class="text-center">
-                                            <div class="btn btn-primary btn-show" data-toggle="modal"
-                                                data-target="#modalDetail">
-                                                <i class="fas fa-eye"></i>
-                                            </div>
-                                            <div class="btn btn-success btn-edit" data-toggle="modal"
-                                                data-target="#modalEdit">
-                                                <i class="fas fa-pencil-alt"></i>
-                                            </div>
-                                            <div class="btn btn-danger btn-delete">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </div>
+                                            @if(Auth::user()->user_role_id == 3)
+                                                <div class="btn btn-primary btn-show" data-toggle="modal"
+                                                    data-target="#modalDetail">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+                                            @else
+                                                <div class="btn btn-primary btn-show" data-toggle="modal"
+                                                    data-target="#modalDetail">
+                                                    <i class="fas fa-eye"></i>
+                                                </div>
+
+                                                <div class="btn btn-success btn-edit" data-toggle="modal"
+                                                    data-target="#modalEdit">
+                                                    <i class="fas fa-pencil-alt"></i>
+                                                </div>
+                                                <div class="btn btn-danger btn-delete">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </div>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach
@@ -286,7 +295,8 @@
 </div>
 
 {{-- Modal Detail Data --}}
-<div class="modal fade" id="modalDetail" class="modalBodyDetail" tabindex="-1" aria-labelledby="modalDetailLabel" aria-hidden="true">
+<div class="modal fade" id="modalDetail" class="modalBodyDetail" tabindex="-1" aria-labelledby="modalDetailLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -301,7 +311,7 @@
                             <div class="small-box bg-info">
                                 <div class="inner">
                                     <h3 id="totalModul"></h3>
-    
+
                                     <p>Moduls</p>
                                 </div>
                             </div>
@@ -313,7 +323,7 @@
                                 <div class="inner">
                                     <h3 id="totalExam"></h3>
                                     <p>Exam</p>
-                                </div>        
+                                </div>
                             </div>
                         </a>
                     </div>
@@ -393,9 +403,9 @@
                     formEditContent.find("#hdnCourseID").val(data.id);
                     formEditContent.find("#course_name").val(data.course_name);
                     formEditContent.find("#course_category_id").val(data
-                    .course_category_id);
+                        .course_category_id);
                     formEditContent.find("#course_description").val(data
-                    .course_description);
+                        .course_description);
                     formEditContent.find("#course_benefit").val(data.course_benefit);
                     formEditContent.find("#course_price").val(data.course_price);
                     formEditContent.find("#discount_percentage").val(data
@@ -468,12 +478,14 @@
             }
         });
 
-        $(".btn-show").click(function(){
+        $(".btn-show").click(function () {
             var item = $(this).closest('.item-content');
             var id = item.find(".hdnCourseID").val();
-            var routeModuls = "{{ route('admin.course-materials.index', ['id' => '__ID__']) }}";
+            var routeModuls =
+                "{{ route('admin.course-materials.index', ['id' => '__ID__']) }}";
 
-            var routeExams = "{{ route('admin.course-exam.index', ['id' => '__ID__']) }}";
+            var routeExams =
+                "{{ route('admin.course-exam.index', ['id' => '__ID__']) }}";
 
             routeModuls = routeModuls.replace('__ID__', id);
 
@@ -494,7 +506,7 @@
                 success: function (data) {
                     var moduleCount = data.moduleCount === 0 ? 0 : data.moduleCount;
                     var examCount = data.examCount === 0 ? 0 : data.examCount;
-                    
+
                     modalDetail.find("#totalModul").text(moduleCount);
                     modalDetail.find("#totalExam").text(examCount);
                 },
