@@ -174,22 +174,8 @@
                             </li>
                         </ul>
                     </li>
-<<<<<<< HEAD
                 </ul>
             </nav>
-=======
-                @endif
-                <li class="nav-item">
-                    <a href="{{ route('home-page') }}" class="nav-link">
-                        <i class="nav-icon fas fa-th"></i>
-                        <p>
-                            Home
-                        </p>
-                    </a>
-                </li>
-            </ul>
-        </nav>
->>>>>>> 4d3040802efc7fe4896a0aadb41db188160547fe
         @endif
         <!-- /.sidebar-menu -->
     </div>
