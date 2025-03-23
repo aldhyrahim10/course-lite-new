@@ -13,9 +13,12 @@ use App\Http\Controllers\CourseExamController;
 use App\Models\CourseExam;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('pages.home');
-})->name('dashboard');
+
+Route::get('/', [FrontController::class, 'index'])->name('home-page');
+Route::get('/courses', [FrontController::class, 'coursesPage'])->name('courses-page');
+Route::get('/courses/detail', [FrontController::class, 'courseDetail'])->name('courses-detail-page');
+Route::get('/articles', [FrontController::class, 'articlesPage'])->name('articles-page');
+Route::get('/articles/detail', [FrontController::class, 'articleDetail'])->name('articles-detail-page');
 
 
 Route::controller(LoginController::class)->group(function () {
