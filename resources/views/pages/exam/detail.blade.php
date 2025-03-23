@@ -96,10 +96,12 @@
                                 <label>Answer</label>
                                 <div class="row">
                                     @for ($i = 0; $i < 4; $i++)
-                                        <div class="input-answer">
-                                            <input type="text" class="form-control" name="course_exam_answer_description[{{ $i }}]"
-                                                id="course_exam_answer_description" placeholder="Enter Answer {{$i+1}}"> 
-                                            <input type="checkbox" class="ml-1" name="is_true" id="is_true[{{ $i }}]" value="1">
+                                        <div class="col-lg-6 mt-2">
+                                            <div class="input-answer d-flex">
+                                                <input type="text" class="form-control" name="course_exam_answer_description[{{ $i }}]"
+                                                    id="course_exam_answer_description" placeholder="Enter Answer {{$i+1}}"> 
+                                                <input type="checkbox" class="ml-1" name="is_true" id="is_true[{{ $i }}]" value="1">
+                                            </div>
                                         </div>
                                     @endfor
                                 </div>
@@ -161,6 +163,16 @@
 @endsection
 
 @section('scripts')
+<script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('.content-desc-add'))
+        .catch(error => console.error(error));
+
+    ClassicEditor
+        .create(document.querySelector('.content-desc-edit'))
+        .catch(error => console.error(error));
+</script>
 <script>
     $.ajaxSetup({
         headers: {
