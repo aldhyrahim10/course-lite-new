@@ -10,12 +10,14 @@ use App\Http\Controllers\UserListController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\CourseExamController;
+use App\Http\Controllers\FrontController;
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('pages.home');
-})->name('dashboard');
+
+Route::get('/', [FrontController::class, 'index'])->name('home-page');
+Route::get('/courses', [FrontController::class, 'coursesPage'])->name('courses-page');
+Route::get('/articles', [FrontController::class, 'articlesPage'])->name('articles-page');
 
 
 Route::controller(LoginController::class)->group(function () {
