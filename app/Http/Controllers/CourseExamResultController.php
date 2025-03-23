@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\CourseExamResult;
 use App\Models\CourseStudent;
 use Illuminate\Http\Request;
@@ -13,30 +14,14 @@ class CourseExamResultController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
         // ID role admin
-        $adminRoleId = 1;
 
         $instructorRoleId = 2;
 
         $studentRoleId = 3;
         
         // Cek apakah pengguna adalah admin
-        $isAdmin = Auth::user()->user_role_id === $adminRoleId;
-
-        $isInstructor = Auth::user()->user_role_id === $instructorRoleId;
-
-        $isStudent = Auth::user()->user_role_id === $studentRoleId;
-        
-        // ID role admin
-        $adminRoleId = 1;
-
-        $instructorRoleId = 2;
-
-        $studentRoleId = 3;
-        
-        // Cek apakah pengguna adalah admin
-        $isAdmin = Auth::user()->user_role_id === $adminRoleId;
 
         $isInstructor = Auth::user()->user_role_id === $instructorRoleId;
 
@@ -51,15 +36,32 @@ class CourseExamResultController extends Controller
                 'users.name as user_name'
             );
 
-        if ($isAdmin) {
-            $query = $courseStudentQuery;
-        } elseif ($isInstructor) {
+        if ($isInstructor) {
             $query = $courseStudentQuery->where('courses.instructor_id', Auth::user()->id);
         } elseif ($isStudent) {
             $query = $courseStudentQuery->where('course_exam_results.student_user_id', Auth::user()->id);
         }
 
         $results = $query->get();
+
+        return view('pages.exam.result', compact('results'));
+    }
+
+    public function indexAdmin() {
+        $courses = Course::get();
+
+        return view('pages.exam.result-admin', compact('courses'));
+    }
+    
+    public function resultAdmin($id) {
+        $results = CourseExamResult::join('courses', 'course_exam_results.course_id', '=', 'courses.id')
+            ->join('users', 'course_exam_results.student_user_id', '=', 'users.id')
+            ->where('course_id', $id)
+            ->select(
+                'course_exam_results.*', 
+                'courses.*', 
+                'users.name as user_name'
+            )->get();
 
         return view('pages.exam.result', compact('results'));
     }
