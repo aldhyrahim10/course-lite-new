@@ -205,7 +205,7 @@
                 answers: [] // Initialize an empty array for answers
             };
 
-            $('.input-answer').each(function(index) {
+            $(this).('.input-answer').each(function(index) {
                 let answerText = $(this).find('input[type="text"]').val() || '';
                 let is_true = $(this).find('input[type="checkbox"]').is(':checked');
                 
@@ -291,7 +291,7 @@
                 _method: 'PATCH'
             };
 
-            $('.input-answer').each(function(index) {
+            $(this).('.input-answer').each(function(index) {
                 let answerText = $(this).find('input[type="text"]').val() || '';
                 let is_true = $(this).find('input[type="checkbox"]').is(':checked');
                 
