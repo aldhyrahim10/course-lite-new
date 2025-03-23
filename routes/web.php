@@ -63,6 +63,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/transactions', [TransactionCourseController::class, 'index'])->name('admin.transactions.index');
 
     Route::get('/exam-result', [CourseExamResultController::class, 'index'])->name('admin.exam-result.index');
+
+    Route::get('/exam-result-admin', [CourseExamResultController::class, 'indexAdmin'])->name('admin.exam-result-course-admin.index');
 });
 
 // User List
@@ -125,3 +127,4 @@ Route::post('/enroll-course', [TransactionCourseController::class, 'store'])->na
 
 // Exam Result
 Route::post('/exam-result', [CourseExamResultController::class, 'store'])->name('admin.exam-result.store');
+Route::get('/exam-result/{id}', [CourseExamResultController::class, 'resultAdmin'])->name('admin.exam-result-admin.index');
