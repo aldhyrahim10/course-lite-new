@@ -10,6 +10,7 @@ use App\Http\Controllers\UserListController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\CourseExamController;
+use App\Http\Controllers\CourseExamResultController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\TransactionCourseController;
 use Illuminate\Support\Facades\Route;
@@ -119,3 +120,6 @@ Route::delete('/delete-course-exam-question/{id}', [CourseExamController::class,
 
 // Enroll Course
 Route::post('/enroll-course', [TransactionCourseController::class, 'store'])->name('admin.enroll-course.store');
+
+// Exam Result
+Route::post('/exam-result', [CourseExamResultController::class, 'store'])->name('admin.exam-result.store');
