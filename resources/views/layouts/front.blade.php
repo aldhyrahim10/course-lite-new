@@ -36,7 +36,7 @@
             <a class="nav-link" href="{{route('articles-page')}}">Articles</a>
           </li>
           @if (Auth::check())
-            <li class="nav-item mx-2">
+            {{-- <li class="nav-item mx-2">
               <a class="btn btn-primary" href="{{route('admin.dashboard')}}">Dashboard</a>
             </li>
             <li class="nav-item mx-2">
@@ -44,6 +44,16 @@
                 @csrf
                 <button class="btn btn-danger">Logout</button>
               </form>
+            </li> --}}
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Hi, {{Auth::user()->name}}
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                <li><a class="dropdown-item" href="{{route('logout')}}">Logout</a></li>
+              </ul>
             </li>
           @else
             <li class="nav-item mx-2">

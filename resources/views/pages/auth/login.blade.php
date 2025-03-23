@@ -34,7 +34,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Login</button>
-                        <p>Belum memilik akun? <a href="{{ route('register') }}">Register</a></p>
+                        <p class="text-center mt-3">Belum memilik akun? <a style="text-decoration: none;" href="{{ route('register') }}">Register</a></p>
                     </form>
                 </div>
             </div>
