@@ -32,7 +32,10 @@
                                 <tr>
                                     <th style="width: 10%">No</th>
                                     <th>Course Name</th>
+                                    @if (Auth::user()->user_role_id != 3)
                                     <th>User</th>
+                                    @endif
+                                    <th>Point</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
@@ -43,8 +46,19 @@
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>{{ $item->course_name }}</td>
+                                        @if (Auth::user()->user_role_id != 3)
                                         <td>{{ $item->user_name }}</td>
-                                        <td>Success</td>
+                                        @endif
+                                        <th class="text-center">
+                                            {{ $item->course_exam_point }}
+                                        </th>
+                                        <td class="text-center">
+                                            @if ($item->is_passed)
+                                            <span class="badge text-success">Passed</span>
+                                            @else
+                                            <span class="badge text-danger">Not Passed</span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
