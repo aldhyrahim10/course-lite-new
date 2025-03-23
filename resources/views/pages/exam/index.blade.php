@@ -63,8 +63,8 @@
                                         </td> --}}
                                         @if (Auth::user()->user_role_id == 3)
                                         <td class="text-center">
-                                            <a href="{{ route('admin.course-exam.show', ['id' => $courseName->id, 'idExam' => $item->id]) }}" class="btn btn-primary">
-                                                <i class="fas fa-eye"></i>
+                                            <a href="{{ route('admin.course-exam.execute', ['id' => $courseName->id, 'idExam' => $item->id]) }}" class="btn btn-primary" target="_blank">
+                                                <i class="fas fa-check"></i>
                                             </a>
                                         </td>
                                         @else

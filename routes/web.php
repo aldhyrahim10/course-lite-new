@@ -57,6 +57,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/courses/{id}/exams/{idExam}', [CourseExamController::class, 'show'])->name('admin.course-exam.show');
 
+    Route::get('/courses/{id}/exams/{idExam}/execute', [CourseExamController::class, 'executeExam'])->name('admin.course-exam.execute');
+
     Route::post('/enroll-course', [TransactionCourseController::class, 'store'])->name('admin.enroll-course.store');
 });
 
