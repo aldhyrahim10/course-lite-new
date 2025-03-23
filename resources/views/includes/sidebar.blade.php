@@ -115,6 +115,16 @@
                             </a>
                         </li>
                     @endif
+                    @if (Auth::user()->user_role_id === 3)
+                        <li class="nav-item">
+                            <a href="{{ route('home-page') }}" class="nav-link">
+                                <i class="nav-icon fas fa-th"></i>
+                                <p>
+                                    Home Page
+                                </p>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
             </nav>
         <!-- /.sidebar-menu -->
