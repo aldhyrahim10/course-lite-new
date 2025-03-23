@@ -34,7 +34,7 @@
                     <p class="title">Course Title</p>
                     <p class="mt-2 category">Category</p>
                     <p class="mt-2 price">Rp 500.000,00</p>
-                    <a href="#" class="btn btn-primary w-100 mt-3">Enroll Course</a>
+                    <div class="btn btn-primary w-100 mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal">Enroll Course</div>
                 </div>
             </div>
             <h4 class="mt-3">Course Lainnya</h4>
@@ -102,5 +102,23 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Enroll Course</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Apakah anda ingin mengambil course ini?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Enroll Course</button>
+      </div>
+    </div>
+  </div>
 </div>
 @endsection
