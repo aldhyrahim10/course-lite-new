@@ -10,7 +10,7 @@ use App\Http\Controllers\UserListController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\CourseExamController;
-
+use App\Models\CourseExam;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -103,3 +103,9 @@ Route::post('/course-exam', [CourseExamController::class, 'store'])->name('admin
 Route::get('/get-one-course-exam', [CourseExamController::class, 'getOneData'])->name('admin.course-exam.edit');
 Route::patch('/update-course-exam/{id}', [CourseExamController::class, 'update'])->name('admin.course-exam.update');
 Route::delete('/delete-course-exam/{id}', [CourseExamController::class, 'destroy'])->name('admin.course-exam.destroy');
+
+// Course Exam Questions
+Route::post('/course-exam-question', [CourseExamController::class, 'storeQuestion'])->name('admin.course-exam-question.store');
+Route::get('/get-one-course-exam-question', [CourseExamController::class, 'getOneDataQuestion'])->name('admin.course-exam-question.edit');
+Route::patch('/update-course-exam-question/{id}', [CourseExamController::class, 'updateQuestion'])->name('admin.course-exam-question.update');
+Route::delete('/delete-course-exam-question/{id}', [CourseExamController::class, 'destroyQuestion'])->name('admin.course-exam-question.destroy');
