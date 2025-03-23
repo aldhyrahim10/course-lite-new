@@ -13,7 +13,30 @@ class TransactionCourseController extends Controller
      */
     public function index()
     {
-        //
+        // ID role admin
+        $adminRoleId = 1;
+
+        $studentRoleId = 3;
+        
+        // Cek apakah pengguna adalah admin
+        $isAdmin = Auth::user()->user_role_id === $adminRoleId;
+
+        $isStudent = Auth::user()->user_role_id === $studentRoleId;
+        
+        // Base query
+        $transactionQuery = TransactionCourse::join('courses', 'transaction_courses.course_id', '=', 'courses.id')
+            ->join('users', 'transaction_courses.user_id', '=', 'users.id')
+            ->select('transaction_courses.*', 'courses.course_name as course_name', 'users.name as user_name');
+
+        if ($isStudent) {
+            $transactions = $transactionQuery->where('transaction_courses.user_id', Auth::id())->get();
+
+            return view('pages.transaction.index', compact('transactions'));
+        }
+
+        $transactions = $transactionQuery->get();
+
+        return view('pages.transaction.index', compact('transactions'));
     }
 
     /**
@@ -37,7 +60,7 @@ class TransactionCourseController extends Controller
         ]);
 
         $validated['user_id'] = Auth::user()->id;
-        $validated['status'] = 0;
+        $validated['status'] = 1;
 
         TransactionCourse::create($validated);
 
