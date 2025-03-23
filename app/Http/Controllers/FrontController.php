@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Course;
+use App\Models\CourseStudent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FrontController extends Controller
 {
@@ -33,14 +35,20 @@ class FrontController extends Controller
 
     public function articleDetail($id){
         $article = Article::with('category')->findOrFail($id);
-        $articles = Article::with('category')->whereNot('id', $id)->get();
+        $articles = Article::with('category')->whereNot('id', $id)->latest()->take(3)->get();
 
         return view('pages.front.detail-article', compact('article', 'articles'));
     }
 
     public function courseDetail($id) {
         $course = Course::with('courseCategory')->findOrFail($id);
-        $courses = Course::with('courseCategory')->whereNot('id', $id)->get();
+        $courses = Course::with('courseCategory')->whereNot('id', $id)->latest()->take(3)->get();
+
+        if (Auth::check()) {
+            $recordExist = CourseStudent::where('user_id', Auth::user()->id)->exists();
+
+            return view('pages.front.detail-course', compact('course', 'courses', 'recordExist'));
+        }
 
         return view('pages.front.detail-course', compact('course', 'courses'));
     }

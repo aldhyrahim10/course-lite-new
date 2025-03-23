@@ -5,12 +5,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Transaction</h1>
+                <h1 class="m-0">Exam Result</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Transaction</li>
+                    <li class="breadcrumb-item active">Exam Result</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -23,7 +23,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Transaction List</h3>
+                        <h3 class="card-title">Exam Result List</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -33,20 +33,18 @@
                                     <th style="width: 10%">No</th>
                                     <th>Course Name</th>
                                     <th>User</th>
-                                    <th>Total Payment</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody id="articleTableBody">
-                                @foreach($transactions as $item)
+                                @foreach($results as $item)
                                     <tr class="item-content">
                                         <td>
                                             {{ $loop->iteration }}
                                         </td>
                                         <td>{{ $item->course_name }}</td>
                                         <td>{{ $item->user_name }}</td>
-                                        <td>{{ $item->total_payment }}</td>
-                                        <td>Paid</td>
+                                        <td>Success</td>
                                     </tr>
                                 @endforeach
                             </tbody>
