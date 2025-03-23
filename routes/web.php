@@ -57,7 +57,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::get('/courses/{id}/exams/{idExam}', [CourseExamController::class, 'show'])->name('admin.course-exam.show');
 
-    Route::post('/enroll-course', [TransactionCourseController::class, 'store'])->name('admin.enroll-course.store');
+    Route::get('/transactions', [TransactionCourseController::class, 'index'])->name('admin.transactions.index');
 });
 
 // User List
@@ -114,3 +114,6 @@ Route::post('/course-exam-question', [CourseExamController::class, 'storeQuestio
 Route::get('/get-one-course-exam-question', [CourseExamController::class, 'getOneDataQuestion'])->name('admin.course-exam-question.edit');
 Route::patch('/update-course-exam-question/{id}', [CourseExamController::class, 'updateQuestion'])->name('admin.course-exam-question.update');
 Route::delete('/delete-course-exam-question/{id}', [CourseExamController::class, 'destroyQuestion'])->name('admin.course-exam-question.destroy');
+
+// Enroll Course
+Route::post('/enroll-course', [TransactionCourseController::class, 'store'])->name('admin.enroll-course.store');
